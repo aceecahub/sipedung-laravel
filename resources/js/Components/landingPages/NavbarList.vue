@@ -1,6 +1,9 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-import { Link } from '@inertiajs/vue3'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { Link, usePage } from '@inertiajs/vue3'
+
+const page = usePage()
+const isAuthenticated = computed(() => page.props.auth.user !== null)
 
 const isScrolled = ref(false)
 
@@ -102,7 +105,12 @@ const styleNav = ref('cursor-pointer hover:text-blue-500 font-medium transition-
             >
           </li>
           <li>
-            <Link :href="route('login')" :class="styleLogin">Login</Link>
+            <Link
+              :href="isAuthenticated ? route('dashboard') : route('login')"
+              :class="styleLogin"
+            >
+              {{ isAuthenticated ? 'Dashboard' : 'Login' }}
+            </Link>
           </li>
         </ul>
       </div>

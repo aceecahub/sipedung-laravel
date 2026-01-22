@@ -9,9 +9,7 @@
                 <div class="md:col-span-2">
                     <div class="flex items-center space-x-2 mb-4">
                         <div class="bg-primary-500 text-white rounded-xl p-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 10c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z" />
-                            </svg>
+                           <img src="src/img/login/tasik.png" alt="logo kampung" class="h-10">
                         </div>
                         <span class="text-2xl font-bold">Kampung Kendung</span>
                     </div>

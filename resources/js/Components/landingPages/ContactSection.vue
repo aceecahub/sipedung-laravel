@@ -6,7 +6,7 @@ const styleP = ref('text-xl my-5 text-gray-600 text-center')
 </script>
 
 <template>
-  <section class="py-10 bg-gray-50">
+  <section class="py-5 bg-gray-50">
     <div class="container mx-auto">
       <div class="flex flex-col items-center">
         <h2 :class="styleH2">Hubungi Kami</h2>

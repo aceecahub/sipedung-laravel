@@ -1,10 +1,17 @@
 <script setup>
-    import { ref,onMounted,onUnmounted } from 'vue';
-    import { Link, usePage } from '@inertiajs/vue3';
+    import {
+        ref,
+        onMounted,
+        onUnmounted
+    } from 'vue';
+    import {
+        Link,
+        usePage
+    } from '@inertiajs/vue3';
     import {
         HomeIcon,
         CircleStackIcon,
-        BanknotesIcon,
+        WalletIcon,
         FingerPrintIcon,
         Cog6ToothIcon,
         ArrowLeftOnRectangleIcon
@@ -18,11 +25,22 @@
         {
             name: 'Data Master',
             icon: CircleStackIcon,
-            current: false
+            current: false,
+            children: [{
+                    name: 'Kepala Keluarga',
+                    href: '/data-master/kepala-keluarga',
+                    current: false
+                },
+                {
+                    name: 'Data Warga',
+                    href: '/data-master/warga',
+                    current: false
+                }
+            ]
         },
         {
             name: 'Kauangan',
-            icon: BanknotesIcon,
+            icon: WalletIcon,
             current: false
         },
         {
@@ -36,6 +54,12 @@
             current: false
         },
     ];
+
+    // menu warga dan kepala keluarga
+    const openSubMenu = ref('');
+    const toggleSubMenu = (menuName) => {
+        openSubMenu.value = openSubMenu.value === menuName ? '' : menuName;
+    };
 
     const isCollapsed = ref(false);
     const isProfileMenuOpen = ref(false);
@@ -71,7 +95,8 @@
     <header class="fixed top-0 left-0 right-0 h-16 bg-white shadow-sm z-30 flex items-center justify-between px-6">
         <div class="md:hidden">
             <button @click="toggleSidebar" class="text-gray-600 hover:text-gray-900">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
             </button>
@@ -80,31 +105,36 @@
         <div class="flex items-center space-x-4">
             <div class="relative" ref="profileMenuRef">
                 <button @click="toggleProfileMenu" class="flex items-center space-x-2 focus:outline-none">
-                    <div class="w-9 h-9 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium text-sm">
-                        {{ page.props.auth.user.name.substring(0, 2).toUpperCase() }}
+                    <div
+                        class="w-9 h-9 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium text-sm">
+                        {{ page . props . auth . user . name . substring(0, 2) . toUpperCase() }}
                     </div>
-                    <span class="hidden md:inline text-sm font-medium text-gray-700">{{ page.props.auth.user.name }}</span>
-                    <svg :class="['h-4 w-4 text-gray-400 transform transition-transform duration-200', isProfileMenuOpen ? 'rotate-180' : '']"
-                         xmlns="http://www.w3.org/2000/svg"
-                         viewBox="0 0 20 20"
-                         fill="currentColor">
-                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    <span
+                        class="hidden md:inline text-sm font-medium text-gray-700">{{ page . props . auth . user . name }}</span>
+                    <svg :class="['h-4 w-4 text-gray-400 transform transition-transform duration-200', isProfileMenuOpen ?
+                        'rotate-180' : ''
+                    ]"
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clip-rule="evenodd" />
                     </svg>
                 </button>
-                <transition
-                    enter-active-class="transition ease-out duration-100"
-                    enter-from-class="transform opacity-0 scale-95"
-                    enter-to-class="transform opacity-100 scale-100"
+                <transition enter-active-class="transition ease-out duration-100"
+                    enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100"
                     leave-active-class="transition ease-in duration-75"
-                    leave-from-class="transform opacity-100 scale-100"
-                    leave-to-class="transform opacity-0 scale-95">
-                    <div v-show="isProfileMenuOpen" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-                    <Link href="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profil Saya</Link>
-                    <Link href="/settings" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Pengaturan</Link>
-                    <div class="border-t border-gray-100"></div>
-                    <Link href="/logout" method="post" as="button" class="w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                    leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
+                    <div v-show="isProfileMenuOpen"
+                        class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                        <Link href="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profil
+                        Saya</Link>
+                        <Link href="/settings" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        Pengaturan</Link>
+                        <div class="border-t border-gray-100"></div>
+                        <Link href="/logout" method="post" as="button"
+                            class="w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
                         Keluar
-                    </Link>
+                        </Link>
                     </div>
                 </transition>
             </div>
@@ -165,16 +195,8 @@
 
         <!-- Main content -->
         <div class="flex-1 flex flex-col overflow-hidden pt-16 md:pt-0">
-            <!-- Page title for mobile -->
-            <div class="h-16 md:hidden"></div> <!-- Spacer untuk header yang fixed -->
-            <div class="md:hidden px-4 py-3">
-                <h1 class="text-lg font-semibold text-gray-800">
-                    {{ $page.component.split('/').pop() }}
-                </h1>
-            </div>
-
             <!-- Page content -->
-            <main class="flex-1 overflow-y-auto p-4 md:p-6 bg-gray-50">
+            <main class="flex-1 overflow-y-auto md:p-6 bg-gray-50">
                 <slot />
             </main>
         </div>

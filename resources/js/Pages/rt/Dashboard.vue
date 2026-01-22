@@ -21,28 +21,28 @@
     // Sample data (ganti dengan data asli dari backend)
     const stats = [{
             name: 'Total Kepala Keluarga',
-            value: '1,234',
+            value: '19',
             icon: UserGroupIcon,
             change: '+12%',
             changeType: 'increase'
         },
         {
             name: 'Total Warga',
-            value: '4,567',
+            value: '200',
             icon: UserIcon,
             change: '+8%',
             changeType: 'increase'
         },
         {
             name: 'Pemuda/Pemudi',
-            value: '1,234',
+            value: '29',
             icon: UserIcon,
             change: '+5%',
             changeType: 'increase'
         },
         {
             name: 'Lansia',
-            value: '890',
+            value: '20',
             icon: UserIcon,
             change: '-2%',
             changeType: 'decrease'
@@ -128,7 +128,7 @@
                 </div>
                 <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
                     <button type="button"
-                        class="inline-flex items-center justify-center rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:w-auto">
+                        class="inline-flex items-center justify-center rounded-md border border-transparent bg-green-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-600 transition-colors duration-200 sm:w-auto">
                         Ekspor Laporan
                     </button>
                 </div>

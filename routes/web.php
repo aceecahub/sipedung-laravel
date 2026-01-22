@@ -29,4 +29,9 @@ Route::get('/login', function () {
     return Inertia::render('Auth/Login');
 })->name('login');
 
+//RT permission
+Route::get('/kepala-keluarga', function () {
+    return Inertia::render('rt/KepalaKeluarga');
+})->middleware(['auth', 'verified'])->name('kepala-keluarga');
+
 require __DIR__.'/auth.php';

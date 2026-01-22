@@ -5,12 +5,13 @@
   <section class="my-10" style="font-family: playfair-display">
     <div class="container mx-auto px-4">
       <div class="flex flex-col items-center">
-        <h2 class="text-3xl font-bold text-center text-gray-900">Tentang Kampung Kendung</h2>
+        <h2 data-aos="fade-up" data-aos-delay="100" class="text-3xl font-bold text-center text-gray-900">Tentang Kampung Kendung</h2>
         <hr
+          data-aos="fade-up" data-aos-delay="200"
           class="w-20 h-1 mt-1 border-0 rounded-full mr-80 bg-blue-400"
         />
       </div>
-      <p class="text-xl mt-5 text-gray-600 text-center">Sejarah Kampung Kendung</p>
+      <p data-aos="fade-up" data-aos-delay="300" class="text-xl mt-5 text-gray-600 text-center">Sejarah Kampung Kendung</p>
     </div>
 
     <!-- image and sejarah -->
@@ -18,7 +19,7 @@
       <div class="flex mt-5 gap-5">
         <div class="relative ml-1 p-4 rounded-2xl w-190 h-105 bg-blue-50 shadow-xl">
           <div class="relative">
-            <img
+            <img data-aos="fade-up" data-aos-delay="300"
               src="src/img/login/kendung.jpg"
               alt="Kampung Kendung"
               class="h-96 object-cover rounded-2xl w-full"
@@ -26,7 +27,7 @@
             <div
               class="container absolute -bottom-9 -right-8 h-25 bg-blue-500 p-4 rounded-xl shadow-lg backdrop-blur-sm w-48"
             >
-              <div class="flex items-center justify-center h-full">
+              <div class="flex items-center justify-center h-full" data-aos="fade-up" data-aos-delay="300">
                 <div>
                   <p class="font-medium text-lg text-white">Sejak Berdiri</p>
                   <p class="text-xl font-bold text-white">Tahun 1952</p>

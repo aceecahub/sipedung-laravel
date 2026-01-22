@@ -20,47 +20,68 @@
     const navigation = [{
             name: 'Dashboard',
             icon: HomeIcon,
-            current: true
+            href: '/dashboard'
         },
         {
             name: 'Data Master',
             icon: CircleStackIcon,
-            current: false,
             children: [{
                     name: 'Kepala Keluarga',
-                    href: '/data-master/kepala-keluarga',
-                    current: false
+                    href: '/kepala-keluarga'
                 },
                 {
                     name: 'Data Warga',
-                    href: '/data-master/warga',
-                    current: false
+                    href: '/data-master/warga'
                 }
             ]
         },
         {
-            name: 'Kauangan',
+            name: 'Kauangan', // Catatan: typo, seharusnya "Keuangan"
             icon: WalletIcon,
-            current: false
+            children: [{
+                    name: '17 agustus',
+                    href: '/agustusan'
+                },
+                {
+                    name: 'Denda Ronda',
+                    href: '/denda-ronda'
+                }
+            ]
         },
         {
             name: 'Presensi',
             icon: FingerPrintIcon,
-            current: false
+            children: [{
+                    name: 'Ronda',
+                    href: '/ronda'
+                },
+                {
+                    name: 'Pengajian',
+                    href: '/pengajian'
+                }
+            ]
         },
         {
             name: 'Pengaturan',
             icon: Cog6ToothIcon,
-            current: false
+            href: '/pengaturan' // Diperbaiki dari '/kepala-keluarga'
         },
     ];
 
-    // menu warga dan kepala keluarga
+    // Dropdown untuk Data Master
     const openSubMenu = ref('');
+
     const toggleSubMenu = (menuName) => {
         openSubMenu.value = openSubMenu.value === menuName ? '' : menuName;
     };
 
+    // Fungsi cek route aktif
+    const isActive = (path) => {
+        const currentUrl = usePage().url;
+        return currentUrl === path || currentUrl === path + '/';
+    };
+
+    // --- Bagian lain tetap sama ---
     const isCollapsed = ref(false);
     const isProfileMenuOpen = ref(false);
     const profileMenuRef = ref(null);
@@ -73,7 +94,6 @@
         isProfileMenuOpen.value = !isProfileMenuOpen.value;
     };
 
-    // Menutup menu saat klik di luar area menu
     const handleClickOutside = (event) => {
         if (profileMenuRef.value && !profileMenuRef.value.contains(event.target)) {
             isProfileMenuOpen.value = false;
@@ -88,7 +108,7 @@
         document.removeEventListener('click', handleClickOutside);
     });
 
-    const page = usePage()
+    const page = usePage();
 </script>
 
 <template>
@@ -101,7 +121,7 @@
                 </svg>
             </button>
         </div>
-        <div></div> <!-- Spacer untuk menyeimbangkan flex -->
+        <div></div>
         <div class="flex items-center space-x-4">
             <div class="relative" ref="profileMenuRef">
                 <button @click="toggleProfileMenu" class="flex items-center space-x-2 focus:outline-none">
@@ -141,7 +161,6 @@
         </div>
     </header>
     <div class="flex h-screen bg-gray-50">
-        <!-- Sidebar -->
         <div
             :class="[
                 'fixed inset-y-0 left-0 transform transition-all duration-300 ease-in-out z-50',
@@ -150,7 +169,6 @@
                 'flex flex-col px-4 py-6 shadow-2xl',
                 'md:relative md:translate-x-0'
             ]">
-            <!-- Logo & Toggle Button -->
             <div class="flex items-center justify-between mb-10">
                 <div class="flex items-center space-x-3">
                     <div class="w-10 h-10 rounded-xl bg-blue-500 flex items-center justify-center shadow-lg">
@@ -171,31 +189,70 @@
             <nav class="flex-1">
                 <ul class="space-y-1">
                     <li v-for="item in navigation" :key="item.name">
-                        <Link
+                        <!-- Item dengan children (dropdown) -->
+                        <div v-if="item.children" class="relative">
+                            <button type="button" @click="toggleSubMenu(item.name)"
+                                class="flex items-center justify-between w-full px-4 py-3 rounded-xl transition-all duration-200 text-slate-300 hover:bg-slate-700/50 hover:text-white"
+                                :class="[
+                                    openSubMenu === item.name || item.children.some(c => isActive(c.href)) ?
+                                    'bg-slate-700/50 text-white' :
+                                    ''
+                                ]">
+                                <div class="flex items-center">
+                                    <component :is="item.icon"
+                                        class="h-5 w-5 mr-3 flex-shrink-0 text-slate-400" />
+                                    <span class="font-medium">{{ item . name }}</span>
+                                </div>
+                                <svg :class="[
+                                    'h-4 w-4 transition-transform duration-200',
+                                    openSubMenu === item.name ? 'rotate-90 text-white' : 'text-slate-400'
+                                ]"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+
+                            <!-- Dropdown anak -->
+                            <ul v-show="openSubMenu === item.name || item.children.some(c => isActive(c.href))"
+                                class="mt-1 ml-4 space-y-1">
+                                <li v-for="child in item.children" :key="child.href">
+                                    <Link :href="child.href"
+                                        :class="[
+                                            'flex items-center w-full px-4 py-2 rounded-lg transition-all duration-200 text-sm font-medium',
+                                            isActive(child.href) ?
+                                            'bg-blue-600 text-white' :
+                                            'text-slate-400 hover:bg-slate-700/30 hover:text-white'
+                                        ]">
+                                    {{ child . name }}
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Item tanpa children -->
+                        <Link v-else-if="item.href" :href="item.href"
                             :class="[
                                 'flex items-center w-full px-4 py-3 rounded-xl transition-all duration-200',
-                                item.current ?
+                                isActive(item.href) ?
                                 'bg-blue-600 text-white shadow-sm' :
                                 'text-slate-300 hover:bg-slate-700/50 hover:text-white'
                             ]">
                         <component :is="item.icon" class="h-5 w-5 mr-3 flex-shrink-0"
-                            :class="item.current ? 'text-white' : 'text-slate-400'" />
+                            :class="isActive(item.href) ? 'text-white' : 'text-slate-400'" />
                         <span class="font-medium">{{ item . name }}</span>
                         </Link>
                     </li>
                 </ul>
             </nav>
 
-            <!-- Empty space for alignment -->
             <div class="mt-auto"></div>
         </div>
 
-        <!-- Mobile overlay -->
         <div v-if="!isCollapsed" @click="toggleSidebar" class="fixed inset-0 bg-black/40 z-40 md:hidden"></div>
 
-        <!-- Main content -->
         <div class="flex-1 flex flex-col overflow-hidden pt-16 md:pt-0">
-            <!-- Page content -->
             <main class="flex-1 overflow-y-auto md:p-6 bg-gray-50">
                 <slot />
             </main>
@@ -204,12 +261,10 @@
 </template>
 
 <style scoped>
-    /* Smooth transitions */
     * {
         transition: all 0.2s ease-in-out;
     }
 
-    /* Custom scrollbar — subtle and modern */
     ::-webkit-scrollbar {
         width: 6px;
     }

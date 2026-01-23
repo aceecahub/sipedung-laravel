@@ -1,13 +1,25 @@
 <script setup>
-    import {
-        Head
-    } from '@inertiajs/vue3'
+    import { Head, router } from '@inertiajs/vue3';
+import { DocumentArrowDownIcon, MagnifyingGlassIcon, TrashIcon, PencilSquareIcon } from '@heroicons/vue/24/outline';
+import { ref } from 'vue';
+import NavigationLayout from '@/Layouts/NavigationLayout.vue';
 
-    import {
-        DocumentArrowDownIcon,
-        MagnifyingGlassIcon
-    } from '@heroicons/vue/24/outline';
-    import NavigationLayout from '@/Layouts/NavigationLayout.vue';
+const props = defineProps({
+    kk: Array
+});
+
+const deleteKk = (id) => {
+    if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+
+        router.delete(route('kepala-keluarga.destroy', id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                alert('Data berhasil dihapus');
+            },
+        });
+    }
+};
+
 </script>
 
 <template>
@@ -27,6 +39,7 @@
                     <button type="button"
                         class="inline-flex items-center justify-center rounded-md border border-transparent bg-green-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-600 transition-colors duration-200 sm:w-auto">
                         <DocumentArrowDownIcon class="h-5 w-5" />
+                        Download Laporan
                     </button>
                 </div>
             </div>
@@ -52,33 +65,45 @@
                                             class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                                             No</th>
                                         <th scope="col"
-                                            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Nama</th>
+                                            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">KK</th>
                                         <th scope="col"
                                             class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">NIK</th>
                                         <th scope="col"
-                                            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Alamat
+                                            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Nama
                                         </th>
                                         <th scope="col"
-                                            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">RT/RW</th>
+                                            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Tempat Lahir</th>
+                                        <th scope="col"
+                                            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Tanggal Lahir</th>
+                                        <th scope="col"
+                                            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Alamat</th>
+                                        <th scope="col"
+                                            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">No HP</th>
                                         <th scope="col"
                                             class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
                                     <!-- Dummy data – ganti dengan v-for saat integrasi data -->
-                                    <tr class="hover:bg-slate-50 transition-colors duration-150" v-for="(item, index) in Array(5)" :key="index">
+                                    <tr class="hover:bg-slate-50 transition-colors duration-150" v-for="(items, index) in kk" :key="items.id_kk">
                                         <td
                                             class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                             {{ index + 1 }}</td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">Ahmad Fauzi</td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">3201234567890123
-                                        </td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">Jl. Kenanga No. 12
-                                        </td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">03/02</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{{ items.kk }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{{ items.nik }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{{ items.nama }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{{ items.tempat_lahir }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{{ items.tanggal_lahir }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{{ items.alamat }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{{ items.nohp }}</td>
                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                            <button class="text-blue-600 hover:text-blue-900 mr-3">Edit</button>
-                                            <button class="text-red-600 hover:text-red-900">Hapus</button>
+                                            <button class="text-blue-600 hover:text-blue-900 mr-3 p-1 rounded hover:bg-blue-50">
+                                                <PencilSquareIcon class="h-5 w-5 inline" />
+                                            </button>
+                                            <button class="text-red-600 hover:text-red-900 p-1 rounded hover:bg-red-50"
+                                                    @click="deleteKk(items.id_kk)">
+                                                <TrashIcon class="h-5 w-5 inline" />
+                                            </button>
                                         </td>
                                     </tr>
                                 </tbody>

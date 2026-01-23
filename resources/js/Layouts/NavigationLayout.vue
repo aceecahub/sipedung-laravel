@@ -124,7 +124,7 @@
         <div></div>
         <div class="flex items-center space-x-4">
             <div class="relative" ref="profileMenuRef">
-                <button @click="toggleProfileMenu" class="flex items-center space-x-2 focus:outline-none">
+                <button @click="toggleProfileMenu" class="flex items-center space-x-2">
                     <div
                         class="w-9 h-9 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium text-sm">
                         {{ page . props . auth . user . name . substring(0, 2) . toUpperCase() }}

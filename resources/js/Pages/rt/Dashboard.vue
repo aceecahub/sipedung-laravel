@@ -12,7 +12,8 @@
     } from 'chart.js';
     import {
         UserIcon,
-        UserGroupIcon
+        UserGroupIcon,
+        DocumentArrowDownIcon
     } from '@heroicons/vue/24/outline';
 
     // Register Chart.js components
@@ -129,7 +130,8 @@
                 <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
                     <button type="button"
                         class="inline-flex items-center justify-center rounded-md border border-transparent bg-green-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-600 transition-colors duration-200 sm:w-auto">
-                        Ekspor Laporan
+                        <DocumentArrowDownIcon class="h-5 w-5 mr-2" />
+                        Download Laporan
                     </button>
                 </div>
             </div>

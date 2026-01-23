@@ -5,6 +5,9 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+// controller
+use App\Http\Controllers\KepalaKeluargaController;
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -30,8 +33,7 @@ Route::get('/login', function () {
 })->name('login');
 
 //RT permission
-Route::get('/kepala-keluarga', function () {
-    return Inertia::render('rt/KepalaKeluarga');
-})->middleware(['auth', 'verified'])->name('kepala-keluarga');
+Route::resource('kepala-keluarga', KepalaKeluargaController::class)
+    ->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';

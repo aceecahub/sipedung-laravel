@@ -4,12 +4,28 @@ meta {
   seq: 1
 }
 
-get {
+post {
   url: http://localhost:8000/api/kk
-  body: none
+  body: json
   auth: inherit
+}
+
+body:json {
+  {
+      "kk": "3201234567890001",
+      "nik": "3201234567890002",
+      "nama": "Yandi",
+      "tempat_lahir": "Tasikmalaya",
+      "tanggal_lahir": "1990-05-15",
+      "alamat": "KP Kendung",
+      "nohp": "081234567890",
+      "agama": "Islam",
+      "pekerjaan": "Karyawan Swasta"
+  }
+  
 }
 
 settings {
   encodeUrl: true
+  timeout: 0
 }

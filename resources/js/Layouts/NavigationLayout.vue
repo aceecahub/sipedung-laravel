@@ -14,7 +14,9 @@
         WalletIcon,
         FingerPrintIcon,
         Cog6ToothIcon,
-        ArrowLeftOnRectangleIcon
+        ArrowLeftOnRectangleIcon,
+        UserIcon,
+        UserGroupIcon,
     } from '@heroicons/vue/24/outline';
 
     const navigation = [{
@@ -112,7 +114,7 @@
 </script>
 
 <template>
-    <header class="fixed top-0 left-0 right-0 h-16 bg-white shadow-sm z-30 flex items-center justify-between px-6">
+    <header class="fixed top-0 left-0 right-0 h-16 bg-white shadow-md z-30 flex items-center justify-between px-6">
         <div class="md:hidden">
             <button @click="toggleSidebar" class="text-gray-600 hover:text-gray-900">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -165,7 +167,7 @@
             :class="[
                 'fixed inset-y-0 left-0 transform transition-all duration-300 ease-in-out z-50',
                 isCollapsed ? '-translate-x-full' : 'translate-x-0',
-                'bg-gradient-to-br from-slate-800 to-slate-900 text-white w-64',
+                'bg-white w-64',
                 'flex flex-col px-4 py-6 shadow-2xl',
                 'md:relative md:translate-x-0'
             ]">
@@ -174,7 +176,7 @@
                     <div class="w-10 h-10 rounded-xl bg-blue-500 flex items-center justify-center shadow-lg">
                         <span class="text-white font-bold text-lg">KK</span>
                     </div>
-                    <h1 class="text-white text-lg font-semibold tracking-tight">Kampung Kendung</h1>
+                    <h1 class="text-black text-lg font-semibold tracking-tight">Kampung Kendung</h1>
                 </div>
                 <button @click="toggleSidebar" class="md:hidden text-slate-300 hover:text-white transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -192,20 +194,20 @@
                         <!-- Item dengan children (dropdown) -->
                         <div v-if="item.children" class="relative">
                             <button type="button" @click="toggleSubMenu(item.name)"
-                                class="flex items-center justify-between w-full px-4 py-3 rounded-xl transition-all duration-200 text-slate-300 hover:bg-slate-700/50 hover:text-white"
+                                class="flex items-center justify-between w-full px-4 py-3 rounded-xl transition-all duration-200 text-slate-800 hover:bg-slate-100"
                                 :class="[
                                     openSubMenu === item.name || item.children.some(c => isActive(c.href)) ?
-                                    'bg-slate-700/50 text-white' :
+                                    'bg-slate-200 text-white' :
                                     ''
                                 ]">
                                 <div class="flex items-center">
                                     <component :is="item.icon"
-                                        class="h-5 w-5 mr-3 flex-shrink-0 text-slate-400" />
+                                        class="h-5 w-5 mr-3 flex-shrink-0 text-slate-800" />
                                     <span class="font-medium">{{ item . name }}</span>
                                 </div>
                                 <svg :class="[
                                     'h-4 w-4 transition-transform duration-200',
-                                    openSubMenu === item.name ? 'rotate-90 text-white' : 'text-slate-400'
+                                    openSubMenu === item.name ? 'rotate-90 text-white' : 'text-black'
                                 ]"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
@@ -223,7 +225,7 @@
                                             'flex items-center w-full px-4 py-2 rounded-lg transition-all duration-200 text-sm font-medium',
                                             isActive(child.href) ?
                                             'bg-blue-600 text-white' :
-                                            'text-slate-400 hover:bg-slate-700/30 hover:text-white'
+                                            'text-slate-800 hover:bg-slate-100'
                                         ]">
                                     {{ child . name }}
                                     </Link>
@@ -237,10 +239,10 @@
                                 'flex items-center w-full px-4 py-3 rounded-xl transition-all duration-200',
                                 isActive(item.href) ?
                                 'bg-blue-600 text-white shadow-sm' :
-                                'text-slate-300 hover:bg-slate-700/50 hover:text-white'
+                                'text-slate-700 hover:bg-slate-100 hover:text-slate-800'
                             ]">
                         <component :is="item.icon" class="h-5 w-5 mr-3 flex-shrink-0"
-                            :class="isActive(item.href) ? 'text-white' : 'text-slate-400'" />
+                            :class="isActive(item.href) ? 'text-white' : 'text-slate-800'" />
                         <span class="font-medium">{{ item . name }}</span>
                         </Link>
                     </li>

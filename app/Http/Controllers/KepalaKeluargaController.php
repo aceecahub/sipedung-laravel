@@ -13,6 +13,7 @@ class KepalaKeluargaController extends Controller
      */
     public function index()
     {
+        $agamaOptions = KepalaKeluarga::where('agama')->get();
         $kk = KepalaKeluarga::all();
         return Inertia::render('rt/KepalaKeluarga', [
             'kk' => $kk,

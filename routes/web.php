@@ -36,4 +36,7 @@ Route::get('/login', function () {
 Route::resource('kepala-keluarga', KepalaKeluargaController::class)
     ->middleware(['auth', 'verified']);
 
+    Route::get('/kepala-keluarga/search', [KepalaKeluargaController::class, 'search'])
+    ->name('kepala-keluarga.search');
+
 require __DIR__.'/auth.php';

@@ -32,6 +32,7 @@ class KepalaKeluargaController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
+            // 'id_user' => 'required',
             'kk' => 'required|unique:kepala_keluargas,kk|numeric',
             'nik' => 'required|unique:kepala_keluargas,nik|numeric',
             'nama' => 'required|max:255',
@@ -62,15 +63,29 @@ class KepalaKeluargaController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return redirect()->route('kepala-keluarga.index');
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, KepalaKeluarga $kepalaKeluarga): RedirectResponse
     {
-        //
+        $data = $request->validate([
+            'kk' => 'required|numeric|unique:kepala_keluargas,kk,' . $kepalaKeluarga->id_kk . ',id_kk',
+            'nik' => 'required|numeric|unique:kepala_keluargas,nik,' . $kepalaKeluarga->id_kk . ',id_kk',
+            'nama' => 'required|max:255',
+            'tempat_lahir' => 'required|max:255',
+            'tanggal_lahir' => 'required|date',
+            'alamat' => 'required',
+            'nohp' => 'required|max:20',
+            'agama' => 'required|in:Islam,Kristen,Katolik,Hindu,Budha',
+            'pekerjaan' => 'required|max:255',
+        ]);
+
+        $kepalaKeluarga->update($data);
+
+        return redirect()->route('kepala-keluarga.index');
     }
 
     /**

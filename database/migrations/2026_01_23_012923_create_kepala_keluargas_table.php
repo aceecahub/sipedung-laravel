@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('kepala_keluargas', function (Blueprint $table) {
             $table->id('id_kk');
-            $table->foreignId('id_user')->constrained('users')->references('id_user');
+            // $table->foreignId('id_user')->constrained('users')->references('id_user')->nullable();
             $table->string('kk')->unique();
             $table->string('nik')->unique();
             $table->string('nama');

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\KepalaKeluarga;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
+use App\Models\KepalaKeluarga;
+use Illuminate\Http\RedirectResponse;
 
 class KepalaKeluargaController extends Controller
 {
@@ -13,7 +14,6 @@ class KepalaKeluargaController extends Controller
      */
     public function index()
     {
-        $agamaOptions = KepalaKeluarga::where('agama')->get();
         $kk = KepalaKeluarga::all();
         return Inertia::render('rt/KepalaKeluarga', [
             'kk' => $kk,
@@ -23,34 +23,30 @@ class KepalaKeluargaController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-    }
+    public function create() {}
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+
+    public function store(Request $request): RedirectResponse
     {
-        $dataValidated = $request->validate([
+        $data = $request->validate([
             'kk' => 'required|unique:kepala_keluargas,kk|numeric',
             'nik' => 'required|unique:kepala_keluargas,nik|numeric',
             'nama' => 'required|max:255',
             'tempat_lahir' => 'required|max:255',
-            'tanggal_lahir' => 'required',
+            'tanggal_lahir' => 'required|date',
             'alamat' => 'required',
             'nohp' => 'required|max:20',
             'agama' => 'required|in:Islam,Kristen,Katolik,Hindu,Budha',
             'pekerjaan' => 'required|max:255',
         ]);
 
-        $kk = KepalaKeluarga::create($dataValidated);
+        KepalaKeluarga::create($data);
 
-        return response()->json([
-            'message' => 'Kepala keluarga berhasil ditambahkan',
-            'data' => $kk,
-        ], 201);
+        //kembalikan ke fungsi index
+        return redirect()->route('kepala-keluarga.index');
     }
 
     /**
@@ -89,4 +85,3 @@ class KepalaKeluargaController extends Controller
         return redirect()->back()->with('message', 'Data berhasil dihapus');
     }
 }
-

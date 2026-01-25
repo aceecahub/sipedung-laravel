@@ -87,7 +87,7 @@
                 data: {
                     labels: ['Laki-laki', 'Perempuan'],
                     datasets: [{
-                        data: [52, 48],
+                        data: [48, 52],
                         backgroundColor: ['#3B82F6', '#EC4899'],
                         borderWidth: 0,
                     }]

@@ -17,6 +17,8 @@
         ArrowLeftOnRectangleIcon,
         UserIcon,
         UserGroupIcon,
+        BanknotesIcon,
+        CreditCardIcon,
     } from '@heroicons/vue/24/outline';
 
     const navigation = [{
@@ -29,11 +31,13 @@
             icon: CircleStackIcon,
             children: [{
                     name: 'Kepala Keluarga',
-                    href: '/kepala-keluarga'
+                    href: '/kepala-keluarga',
+                    icon: UserIcon
                 },
                 {
                     name: 'Data Warga',
-                    href: '/data-master/warga'
+                    href: '/data-master/warga',
+                    icon: UserGroupIcon
                 }
             ]
         },
@@ -42,11 +46,13 @@
             icon: WalletIcon,
             children: [{
                     name: '17 agustus',
-                    href: '/agustusan'
+                    href: '/agustusan',
+                    icon:  BanknotesIcon
                 },
                 {
                     name: 'Denda Ronda',
-                    href: '/denda-ronda'
+                    href: '/denda-ronda',
+                    icon: CreditCardIcon
                 }
             ]
         },
@@ -55,11 +61,13 @@
             icon: FingerPrintIcon,
             children: [{
                     name: 'Ronda',
-                    href: '/ronda'
+                    href: '/ronda',
+                    icon: UserIcon
                 },
                 {
                     name: 'Pengajian',
-                    href: '/pengajian'
+                    href: '/pengajian',
+                    icon: UserIcon
                 }
             ]
         },
@@ -197,7 +205,7 @@
                                 class="flex items-center justify-between w-full px-4 py-3 rounded-xl transition-all duration-200 text-slate-800 hover:bg-slate-100"
                                 :class="[
                                     openSubMenu === item.name || item.children.some(c => isActive(c.href)) ?
-                                    'bg-slate-200 text-white' :
+                                    'bg-slate-200 text-slate-700' :
                                     ''
                                 ]">
                                 <div class="flex items-center">
@@ -207,7 +215,7 @@
                                 </div>
                                 <svg :class="[
                                     'h-4 w-4 transition-transform duration-200',
-                                    openSubMenu === item.name ? 'rotate-90 text-white' : 'text-black'
+                                    openSubMenu === item.name ? 'rotate-90 text-slate-700' : 'text-black'
                                 ]"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
@@ -227,7 +235,10 @@
                                             'bg-blue-600 text-white' :
                                             'text-slate-800 hover:bg-slate-100'
                                         ]">
+                                        <div class="flex gap-2">
+                                    <component :is="child.icon" class="h-5"  />
                                     {{ child . name }}
+                                    </div>
                                     </Link>
                                 </li>
                             </ul>

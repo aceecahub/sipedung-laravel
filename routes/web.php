@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
 
 // controller
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\KepalaKeluargaController;
+use App\Http\Controllers\WargaController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -36,7 +37,7 @@ Route::get('/login', function () {
 Route::resource('kepala-keluarga', KepalaKeluargaController::class)
     ->middleware(['auth', 'verified']);
 
-    Route::get('/kepala-keluarga/search', [KepalaKeluargaController::class, 'search'])
-    ->name('kepala-keluarga.search');
+Route::resource('warga', WargaController::class)
+    ->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('kepala_keluargas', function (Blueprint $table) {
             $table->id('id_kk');
-            // $table->foreignId('id_user')->constrained('users')->references('id_user')->nullable();
+            $table->foreignId('id_user')->constrained('users')->references('id_user');
             $table->string('kk')->unique();
             $table->string('nik')->unique();
             $table->string('nama');
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->date('tanggal_lahir');
             $table->text('alamat');
             $table->string('nohp');
-            $table->enum('agama', ['Islam', 'Kristen', 'Katolik', 'Hindu', 'Budha']);
+            $table->enum('agama', ['Islam', 'Kristen', 'Katolik', 'Hindu', 'Budha', 'Konghucu']);
             $table->string('pekerjaan');
             $table->timestamps();
         });

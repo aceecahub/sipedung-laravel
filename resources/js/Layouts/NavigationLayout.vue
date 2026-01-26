@@ -36,7 +36,7 @@
                 },
                 {
                     name: 'Data Warga',
-                    href: '/data-master/warga',
+                    href: '/warga',
                     icon: UserGroupIcon
                 }
             ]

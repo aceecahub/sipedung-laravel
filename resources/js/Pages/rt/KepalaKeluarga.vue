@@ -75,10 +75,12 @@
 
     // Buka modal untuk edit data
     const openEditModal = (item) => {
-    editId.value = item.id_kk;
-    form.value = { ...item }; // ambil dari props.kk
-    showModal.value = true;
-};
+        editId.value = item.id_kk;
+        form.value = {
+            ...item
+        }; // ambil dari props.kk
+        showModal.value = true;
+    };
 
     // Submit form (create atau update)
     const submitForm = () => {

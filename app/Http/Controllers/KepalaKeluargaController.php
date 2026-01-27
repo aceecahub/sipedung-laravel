@@ -31,8 +31,8 @@ class KepalaKeluargaController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $data = $request->validate([
-            // 'id_user' => 'required',
+        $dataValidate = $request->validate([
+            'id_user' => 'required',
             'kk' => 'required|unique:kepala_keluargas,kk|numeric',
             'nik' => 'required|unique:kepala_keluargas,nik|numeric',
             'nama' => 'required|max:255',
@@ -44,7 +44,7 @@ class KepalaKeluargaController extends Controller
             'pekerjaan' => 'required|max:255',
         ]);
 
-        KepalaKeluarga::create($data);
+        KepalaKeluarga::create($dataValidate);
 
         //kembalikan ke fungsi index
         return redirect()->route('kepala-keluarga.index');

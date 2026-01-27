@@ -16,7 +16,7 @@
         ref
     } from 'vue';
 
-    // Props dari controller Laravel
+    // Props dari controller
     const props = defineProps({
         kk: {
             type: Array,

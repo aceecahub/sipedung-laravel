@@ -1,5 +1,8 @@
 <script setup>
-    import { router, Head } from '@inertiajs/vue3';
+    import {
+        router,
+        Head
+    } from '@inertiajs/vue3';
     import NavigationLayout from '@/Layouts/NavigationLayout.vue';
     import Modal from '@/Components/Modal.vue';
     import {
@@ -17,14 +20,125 @@
         warga: {
             type: Array,
             default: () => []
+        },
+        kk: {
+            type: Array,
+            default: () => []
+        },
+        user: {
+            type: Array,
+            default: () => []
         }
-    })
+    });
 
-    // Modal
-    // ShowModal
-    const ShowModal = ref(false)
+    // State modal
+    const showModal = ref(false);
+    const editId = ref(null); // null = create, angka = update
 
+    // Form reactive (create & update)
+    const form = ref({
+        id_user: '',
+        id_kk: '',
+        nik: '',
+        nama: '',
+        tempat_lahir: '',
+        tanggal_lahir: '',
+        alamat: '',
+        nohp: '',
+        jenis_kelamin: '',
+        status_perkawinan: '',
+        pekerjaan: '',
+        goldar: '',
+        status: 'Hidup'
+    });
 
+    // Pilihan untuk select
+    const kkOptions = props.kk.map(kk => ({
+        id: kk.id_kk,
+        nama: kk.nama
+    }));
+    const userOptions = props.user.map(user => ({
+        value: user.id_user,
+        email: user.email
+    }));
+
+    const jenisKelaminOptions = ['Laki-Laki', 'Perempuan'];
+    const statusPerkawinanOptions = ['Belum Menikah', 'Menikah', 'Cerai Hidup', 'Cerai Mati'];
+    const goldarOptions = ['A', 'B', 'AB', 'O'];
+    const statusOptions = ['Hidup', 'Meninggal', 'Pindah'];
+
+    // Reset form & tutup modal
+    const resetForm = () => {
+        form.value = {
+            id_user: '',
+            id_kk: '',
+            nik: '',
+            nama: '',
+            tempat_lahir: '',
+            tanggal_lahir: '',
+            alamat: '',
+            nohp: '',
+            jenis_kelamin: '',
+            status_perkawinan: '',
+            pekerjaan: '',
+            goldar: '',
+            status: 'Hidup',
+        };
+        editId.value = null;
+        showModal.value = false;
+    };
+
+    // Buka modal untuk tambah data
+    const openCreateModal = () => {
+        resetForm();
+        showModal.value = true;
+    };
+
+    // Buka modal untuk edit data
+    const openEditModal = (item) => {
+        editId.value = item.id_warga;
+        form.value = {
+            ...item
+        }; // ambil dari props.kk
+        showModal.value = true;
+    };
+
+    // Submit form (create atau update)
+    const submitForm = () => {
+        if (editId.value === null) {
+            // CREATE
+            router.post(
+                route('warga.store'),
+                form.value, {
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        alert('Data berhasil disimpan');
+                        resetForm();
+                    },
+                    onError: (errors) => {
+                        console.error('Validation errors:', errors);
+                        alert('Gagal menyimpan data. Periksa input Anda.');
+                    }
+                }
+            );
+        } else {
+            // UPDATE
+            router.put(
+                route('warga.update', editId.value),
+                form.value, {
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        alert('Data berhasil diperbarui');
+                        resetForm();
+                    },
+                    onError: (errors) => {
+                        console.error('Validation errors:', errors);
+                        alert('Gagal memperbarui data. Periksa input Anda.');
+                    }
+                }
+            );
+        }
+    };
     // Hapus data
     const deleteWarga = (id) => {
         if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
@@ -36,15 +150,11 @@
             });
         }
     };
-
-    // Dummy data for pagination
-    const currentPage = ref(1);
-    const totalData = 5; // Update this with actual data length when connected to backend
-    const itemsPerPage = 10;
 </script>
 
 <template>
-    <Head title="Warga"/>
+
+    <Head title="Warga" />
     <NavigationLayout>
         <div class="px-4 sm:px-6 lg:px-8 py-8 mt-5">
             <!-- Header -->
@@ -149,27 +259,27 @@
                                                 {{ index + 1 }}
                                             </td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item . nik }}</td>
+                                                {{ item.nik }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item . nama }}</td>
+                                                {{ item.nama }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item . tempat_lahir }}</td>
+                                                {{ item.tempat_lahir }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item . tanggal_lahir }}</td>
+                                                {{ item.tanggal_lahir }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item . alamat }}</td>
+                                                {{ item.alamat }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item . nohp }}</td>
+                                                {{ item.nohp }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item . jenis_kelamin }}</td>
+                                                {{ item.jenis_kelamin }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item . status_perkawinan }}</td>
+                                                {{ item.status_perkawinan }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item . pekerjaan }}</td>
+                                                {{ item.pekerjaan }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item . goldar }}</td>
+                                                {{ item.goldar }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item . status }}</td>
+                                                {{ item.status }}</td>
                                             <td
                                                 class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                 <button @click="openEditModal(item)"
@@ -186,39 +296,31 @@
                                 </table>
 
                                 <!-- Pagination -->
-                                <div v-if="totalData > 0"
+                                <div v-if="kk.length > 0"
                                     class="p-2 flex items-center justify-between border-t border-gray-200 pt-4">
                                     <div class="text-sm text-gray-700">
                                         Menampilkan <span class="font-bold">1</span> hingga <span
-                                            class="font-bold">{{ Math . min(itemsPerPage, totalData) }}</span> dari
-                                        <span class="font-bold">{{ totalData }}</span>
+                                            class="font-bold">10</span> dari
+                                        <span class="font-bold">{{ totalData }}</span> hasil
                                     </div>
                                     <div class="flex space-x-2">
                                         <!-- Previous Button -->
                                         <button
                                             class="relative inline-flex items-center px-3 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-100"
-                                            :disabled="currentPage === 1" @click="currentPage--"
-                                            :class="{ 'opacity-50 cursor-not-allowed': currentPage === 1 }"
-                                            v-if="currentPage > 1">
+                                            :disabled="currentPage === 1" v-if="currentPage > 1">
                                             Sebelumnya
                                         </button>
 
                                         <!-- Page Numbers -->
                                         <button v-for="page in [1, 2, 3]" :key="page"
-                                            class="relative inline-flex items-center px-3 py-2 rounded-md border text-sm font-medium"
-                                            :class="{
-                                                'bg-blue-50 text-blue-700 border-blue-500': page === currentPage,
-                                                'border-gray-300 bg-white text-gray-700 hover:bg-gray-100': page !==
-                                                    currentPage
-                                            }"
-                                            @click="currentPage = page">
+                                            class="relative inline-flex items-center px-3 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-100"
+                                            :class="{ 'bg-blue-50 text-blue-700 border-blue-500': page === 1 }">
                                             {{ page }}
                                         </button>
 
                                         <!-- Next Button -->
                                         <button
-                                            class="relative inline-flex items-center px-3 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-100"
-                                            @click="currentPage++">
+                                            class="relative inline-flex items-center px-3 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-100">
                                             Selanjutnya
                                         </button>
                                     </div>
@@ -230,6 +332,7 @@
             </div>
 
 
+            <!-- Modal untuk Create & Update -->
             <Modal :show="showModal" @close="resetForm">
                 <template #default>
                     <div
@@ -248,7 +351,7 @@
                         <!-- Judul Modal -->
                         <div class="mb-6 pb-3 border-b border-gray-200">
                             <h2 class="text-xl font-bold text-gray-800">
-                                {{ editId ? 'Update Data Kepala Keluarga' : 'Tambah Data Kepala Keluarga' }}
+                                {{ editId ? 'Update Data Warga' : 'Tambah Data Warga' }}
                             </h2>
                             <p class="text-sm text-gray-500 mt-1">
                                 Lengkapi informasi di bawah ini dengan data yang valid.
@@ -259,30 +362,45 @@
                         <form @submit.prevent="submitForm" class="space-y-5">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <label for="kk" class="block text-sm font-medium text-gray-700 mb-1">No.
-                                        Kartu
+                                    <label for="id_kk" class="block text-sm font-medium text-gray-700 mb-1">Kepala
                                         Keluarga</label>
-                                    <input type="text" inputmode="numeric" id="kk" v-model="form.kk"
-                                        required placeholder="Contoh: 3201021234567890"
+                                    <select id="id_kk" v-model="form.id_kk" required
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 appearance-none">
+                                        <option value="" disabled>Pilih Kepala Keluarga</option>
+                                        <option v-for="kk in kkOptions" :key="kk.id" :value="kk.id">
+                                            {{ kk.nama }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="nik"
+                                        class="block text-sm font-medium text-gray-700 mb-1">NIK</label>
+                                    <input type="text" inputmode="numeric" id="nik" v-model="form.nik"
+                                        required placeholder="Masukkan NIK"
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200" />
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="nama" class="block text-sm font-medium text-gray-700 mb-1">Nama
+                                        Lengkap</label>
+                                    <input type="text" id="nama" v-model="form.nama" required
+                                        placeholder="Masukkan nama lengkap"
                                         class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200" />
                                 </div>
                                 <div>
-                                    <label for="nik" class="block text-sm font-medium text-gray-700 mb-1">No.
-                                        NIK</label>
-                                    <input type="text" inputmode="numeric" id="nik" v-model="form.nik"
-                                        required placeholder="Contoh: 3201029876543210"
-                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200" />
+                                    <label for="id_user" class="block text-sm font-medium text-gray-700 mb-1">Email
+                                        Pengguna</label>
+                                    <select id="id_user" v-model="form.id_user" required
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 appearance-none">
+                                        <option value="" disabled>Pilih Email Pengguna</option>
+                                        <option v-for="user in userOptions" :key="user.id_user"
+                                            :value="user.value">
+                                            {{ user.email }}
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
-
-                            <div>
-                                <label for="nama" class="block text-sm font-medium text-gray-700 mb-1">Nama
-                                    Lengkap</label>
-                                <input type="text" id="nama" v-model="form.nama" required
-                                    placeholder="Masukkan nama lengkap"
-                                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200" />
-                            </div>
-
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label for="tempat_lahir"
@@ -301,47 +419,82 @@
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
+                                    <label for="jenis_kelamin"
+                                        class="block text-sm font-medium text-gray-700 mb-1">Jenis Kelamin</label>
+                                    <select id="jenis_kelamin" v-model="form.jenis_kelamin" required
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 appearance-none">
+                                        <option value="" disabled>Pilih Jenis Kelamin</option>
+                                        <option v-for="jk in jenisKelaminOptions" :key="jk"
+                                            :value="jk">{{ jk }}</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="status_perkawinan"
+                                        class="block text-sm font-medium text-gray-700 mb-1">Status Perkawinan</label>
+                                    <select id="status_perkawinan" v-model="form.status_perkawinan" required
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 appearance-none">
+                                        <option value="" disabled>Pilih Status Perkawinan</option>
+                                        <option v-for="status in statusPerkawinanOptions" :key="status"
+                                            :value="status">{{ status }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="pekerjaan"
+                                        class="block text-sm font-medium text-gray-700 mb-1">Pekerjaan</label>
+                                    <input type="text" id="pekerjaan" v-model="form.pekerjaan"
+                                        placeholder="Contoh: Wiraswasta"
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200" />
+                                </div>
+                                <div>
+                                    <label for="goldar"
+                                        class="block text-sm font-medium text-gray-700 mb-1">Golongan Darah</label>
+                                    <select id="goldar" v-model="form.goldar"
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 appearance-none">
+                                        <option value="" disabled>Pilih Golongan Darah</option>
+                                        <option v-for="goldar in goldarOptions" :key="goldar"
+                                            :value="goldar">{{ goldar }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
                                     <label for="nohp" class="block text-sm font-medium text-gray-700 mb-1">No.
                                         HP</label>
-                                    <input type="text" id="nohp" v-model="form.nohp" required
+                                    <input type="tel" id="nohp" v-model="form.nohp" required
                                         placeholder="Contoh: 081234567890"
                                         class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200" />
                                 </div>
                                 <div>
-                                    <label for="pekerjaan"
-                                        class="block text-sm font-medium text-gray-700 mb-1">Pekerjaan</label>
-                                    <input type="text" id="pekerjaan" v-model="form.pekerjaan" required
-                                        placeholder="Contoh: Wiraswasta"
-                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200" />
+                                    <label for="status"
+                                        class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                                    <select id="status" v-model="form.status" required
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 appearance-none">
+                                        <option v-for="status in statusOptions" :key="status"
+                                            :value="status">{{ status }}</option>
+                                    </select>
                                 </div>
                             </div>
 
                             <div>
-                                <label for="agama"
-                                    class="block text-sm font-medium text-gray-700 mb-1">Agama</label>
-                                <select id="agama" v-model="form.agama" required
-                                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 appearance-none">
-                                    <option value="" disabled>Pilih Agama</option>
-                                    <option v-for="agama in agamaOptions" :key="agama"
-                                        :value="agama">
-                                        {{ agama }}
-                                    </option>
-                                </select>
+                                <label for="alamat"
+                                    class="block text-sm font-medium text-gray-700 mb-1">Alamat</label>
+                                <textarea id="alamat" v-model="form.alamat" required rows="3" placeholder="Masukkan alamat lengkap"
+                                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200"></textarea>
                             </div>
 
-                            <div>
-                                <label for="alamat" class="block text-sm font-medium text-gray-700 mb-1">Alamat
-                                    Lengkap</label>
-                                <input type="text" id="alamat" v-model="form.alamat" required
-                                    placeholder="Masukkan alamat lengkap"
-                                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200" />
-                            </div>
-
-                            <!-- Tombol Simpan -->
-                            <div class="flex justify-end pt-2">
+                            <!-- Submit Button -->
+                            <div class="flex justify-end space-x-3 pt-4">
+                                <button type="button" @click="resetForm"
+                                    class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
+                                    Batal
+                                </button>
                                 <button type="submit"
-                                    class="px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-md hover:shadow-sm transition-all duration-200">
-                                    Simpan
+                                    class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
+                                    {{ editId ? 'Update' : 'Simpan' }}
                                 </button>
                             </div>
                         </form>

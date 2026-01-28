@@ -21,11 +21,11 @@ return new class extends Migration
             $table->date('tanggal_lahir');
             $table->string('alamat');
             $table->string('nohp');
-            $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
+            $table->enum('jenis_kelamin', ['Laki-Laki', 'Perempuan']);
             $table->enum('status_perkawinan', ['Belum Menikah', 'Menikah', 'Cerai Hidup', 'Cerai Mati']);
             $table->string('pekerjaan')->nullable();
             $table->enum('goldar', ['A', 'B', 'AB', 'O'])->nullable();
-            $table->enum('status', ['Hidup', 'Meninggal']);
+            $table->enum('status', ['Hidup', 'Meninggal', 'Pindah'])->default('Hidup');
             $table->timestamps();
         });
     }

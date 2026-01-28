@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
-use App\Models\Warga;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+
+// Models
+use App\Models\Warga;
+use App\Models\KepalaKeluarga;
+use App\Models\User;
 
 class WargaController extends Controller
 {
@@ -15,8 +19,12 @@ class WargaController extends Controller
     public function index()
     {
         $warga = Warga::all();
+        $kk = KepalaKeluarga::select('id_kk', 'nama')->get();
+        $user = User::select('id_user', 'email')->get();
         return Inertia::render('rt/Warga', [
             'warga' => $warga,
+            'kk' => $kk,
+            'user' => $user
         ]);
     }
 
@@ -46,12 +54,12 @@ class WargaController extends Controller
             'status_perkawinan' => 'required|in:Belum Menikah,Menikah,Cerai Hidup,Cerai Mati',
             'pekerjaan' => 'nullable|max:255',
             'goldar' => 'nullable|in:A,B,AB,O',
-            'status' => 'required|in:Hidup,Meninggal',
+            'status' => 'required|in:Hidup,Meninggal,Pindah'
         ]);
 
         Warga::create($dataValidate);
 
-        return redirect()->route(warga.index);
+        return redirect()->route('warga.index');
     }
 
     /**
@@ -59,7 +67,7 @@ class WargaController extends Controller
      */
     public function show(string $id)
     {
-        //
+
     }
 
     /**
@@ -67,7 +75,7 @@ class WargaController extends Controller
      */
     public function edit(string $id)
     {
-        //
+
     }
 
     /**
@@ -75,7 +83,27 @@ class WargaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $warga = Warga::findOrFail($id);
+
+        $dataValidate = $request->validate([
+            'id_user' => 'required',
+            'id_kk' => 'required',
+            'nik' => 'required|numeric',
+            'nama' => 'required|max:255',
+            'tempat_lahir' => 'required|max:255',
+            'tanggal_lahir' => 'required|date',
+            'alamat' => 'required',
+            'nohp' => 'required|max:20',
+            'jenis_kelamin' => 'required|in:Laki-Laki,Perempuan',
+            'status_perkawinan' => 'required|in:Belum Menikah,Menikah,Cerai Hidup,Cerai Mati',
+            'pekerjaan' => 'nullable|max:255',
+            'goldar' => 'nullable|in:A,B,AB,O',
+            'status' => 'required|in:Hidup,Meninggal,Pindah'
+        ]);
+
+        $warga->update($dataValidate);
+
+        return redirect()->route('warga.index');
     }
 
     /**
@@ -87,6 +115,6 @@ class WargaController extends Controller
         $warga->delete();
 
         // Gunakan back() atau route() untuk memicu refresh data props otomatis
-        return redirect()->back()->with('message', 'Data berhasil dihapus');
+        return redirect()->route('warga.index');
     }
 }

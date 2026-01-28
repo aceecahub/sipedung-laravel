@@ -21,6 +21,10 @@
         kk: {
             type: Array,
             default: () => []
+        },
+        user: {
+            type:Array,
+            default: () => []
         }
     });
 
@@ -39,6 +43,7 @@
         nohp: '',
         agama: '',
         pekerjaan: '',
+        id_user: ''
     });
 
     // select agama untuk form
@@ -49,6 +54,11 @@
         'Hindu',
         'Budha'
     ];
+
+    const userOptions = props.user.map(user => ({
+        value: user.id_user,
+        label: user.email
+    }));
 
     // Reset form & tutup modal
     const resetForm = () => {
@@ -62,6 +72,7 @@
             nohp: '',
             agama: '',
             pekerjaan: '',
+            id_user: ''
         };
         editId.value = null;
         showModal.value = false;
@@ -106,7 +117,7 @@
                 route('kepala-keluarga.update', editId.value),
                 form.value, {
                     preserveScroll: true,
-                    onSuccess: () => {
+                    onSuccess: () => {  
                         alert('Data berhasil diperbarui');
                         resetForm();
                     },
@@ -223,25 +234,25 @@
                                                 {{ index + 1 }}
                                             </td>
                                             <td class="whitespace-nowrap py-4 text-sm text-gray-700">
-                                                {{ item.kk }}
+                                                {{ item . kk }}
                                             </td>
                                             <td class="whitespace-nowrap py-4 text-sm text-gray-700">
-                                                {{ item.nik }}
+                                                {{ item . nik }}
                                             </td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.nama }}
+                                                {{ item . nama }}
                                             </td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.tempat_lahir }}
+                                                {{ item . tempat_lahir }}
                                             </td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.tanggal_lahir }}
+                                                {{ item . tanggal_lahir }}
                                             </td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.nohp }}
+                                                {{ item . nohp }}
                                             </td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.pekerjaan }}
+                                                {{ item . pekerjaan }}
                                             </td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
                                                 <div class="flex space-x-2">
@@ -283,8 +294,7 @@
                                     <!-- Previous Button -->
                                     <button
                                         class="relative inline-flex items-center px-3 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-100"
-                                        :disabled="currentPage === 1"
-                                        v-if="currentPage > 1">
+                                        :disabled="currentPage === 1" v-if="currentPage > 1">
                                         Sebelumnya
                                     </button>
 
@@ -352,13 +362,27 @@
                                         class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200" />
                                 </div>
                             </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="nama" class="block text-sm font-medium text-gray-700 mb-1">Nama
+                                        Lengkap</label>
+                                    <input type="text" id="nama" v-model="form.nama" required
+                                        placeholder="Masukkan nama lengkap"
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200" />
+                                </div>
 
-                            <div>
-                                <label for="nama" class="block text-sm font-medium text-gray-700 mb-1">Nama
-                                    Lengkap</label>
-                                <input type="text" id="nama" v-model="form.nama" required
-                                    placeholder="Masukkan nama lengkap"
-                                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200" />
+                                <div>
+                                    <label for="id_user"
+                                        class="block text-sm font-medium text-gray-700 mb-1">Akun Pengguna</label>
+                                    <select id="id_user" v-model="form.id_user" required
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 appearance-none">
+                                        <option value="" disabled selected>Pilih Email Pengguna</option>
+                                        <option v-for="user in userOptions" :key="user.id_user"
+                                            :value="user.value">
+                                            {{ user.label }}
+                                        </option>
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

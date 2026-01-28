@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use App\Models\KepalaKeluarga;
 use Illuminate\Http\RedirectResponse;
+
+// Models
+use App\Models\KepalaKeluarga;
+use App\Models\User;
 
 class KepalaKeluargaController extends Controller
 {
@@ -15,8 +18,10 @@ class KepalaKeluargaController extends Controller
     public function index()
     {
         $kk = KepalaKeluarga::all();
+        $user = User::select('id_user', 'email')->get();
         return Inertia::render('rt/KepalaKeluarga', [
             'kk' => $kk,
+            'user' => $user,
         ]);
     }
 
@@ -33,8 +38,8 @@ class KepalaKeluargaController extends Controller
     {
         $dataValidate = $request->validate([
             'id_user' => 'required',
-            'kk' => 'required|unique:kepala_keluargas,kk|numeric',
-            'nik' => 'required|unique:kepala_keluargas,nik|numeric',
+            'kk' => 'required|numeric',
+            'nik' => 'required|numeric',
             'nama' => 'required|max:255',
             'tempat_lahir' => 'required|max:255',
             'tanggal_lahir' => 'required|date',
@@ -47,7 +52,7 @@ class KepalaKeluargaController extends Controller
         KepalaKeluarga::create($dataValidate);
 
         //kembalikan ke fungsi index
-        return redirect()->route('kepala-keluarga.index');
+        return redirect()->route('kepala-keluarga.index')->with('message', 'Data berhasil ditambahkan');
     }
 
     /**
@@ -72,8 +77,9 @@ class KepalaKeluargaController extends Controller
     public function update(Request $request, KepalaKeluarga $kepalaKeluarga): RedirectResponse
     {
         $data = $request->validate([
-            'kk' => 'required|numeric|unique:kepala_keluargas,kk,' . $kepalaKeluarga->id_kk . ',id_kk',
-            'nik' => 'required|numeric|unique:kepala_keluargas,nik,' . $kepalaKeluarga->id_kk . ',id_kk',
+            'id_user' => 'required',
+            'kk' => 'required|numeric',
+            'nik' => 'required|numeric',
             'nama' => 'required|max:255',
             'tempat_lahir' => 'required|max:255',
             'tanggal_lahir' => 'required|date',
@@ -85,7 +91,7 @@ class KepalaKeluargaController extends Controller
 
         $kepalaKeluarga->update($data);
 
-        return redirect()->route('kepala-keluarga.index');
+        return redirect()->route('kepala-keluarga.index')->with('message', 'Data berhasil diupdate');
     }
 
     /**
@@ -97,6 +103,6 @@ class KepalaKeluargaController extends Controller
         $kk->delete();
 
         // Gunakan back() atau route() untuk memicu refresh data props otomatis
-        return redirect()->back()->with('message', 'Data berhasil dihapus');
+        return redirect()->route('kepala-keluarga.index')->with('message', 'Data berhasil dihapus');
     }
 }

@@ -16,5 +16,5 @@ Route::get('/user', function (Request $request) {
 Route::apiResource('kk', KepalaKeluargaController::class);
 
 // Warga
-Route::apiResource('warga', WargaController::class);
+Route::apiResource('wg', WargaController::class);
 

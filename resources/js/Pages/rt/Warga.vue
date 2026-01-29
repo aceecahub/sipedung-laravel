@@ -3,6 +3,7 @@
         router,
         Head
     } from '@inertiajs/vue3';
+    import Swal from 'sweetalert2';
     import NavigationLayout from '@/Layouts/NavigationLayout.vue';
     import Modal from '@/Components/Modal.vue';
     import {
@@ -105,50 +106,100 @@
 
     // Submit form (create atau update)
     const submitForm = () => {
-        if (editId.value === null) {
-            // CREATE
-            router.post(
-                route('warga.store'),
-                form.value, {
-                    preserveScroll: true,
-                    onSuccess: () => {
-                        alert('Data berhasil disimpan');
-                        resetForm();
-                    },
-                    onError: (errors) => {
-                        console.error('Validation errors:', errors);
-                        alert('Gagal menyimpan data. Periksa input Anda.');
-                    }
+        const isUpdate = editId.value !== null;
+        Swal.fire({
+            title: 'Mohon Tunggu...',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        if (!isUpdate) {
+            // --- LOGIC CREATE ---
+            router.post(route('warga.store'), form.value, {
+                preserveScroll: true,
+                onSuccess: () => {
+                    resetForm();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil Disimpan!',
+                        text: 'Data warga baru telah ditambahkan ke sistem.',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true
+                    });
+                },
+                onError: (errors) => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal Menyimpan',
+                        text: 'Periksa kembali inputan Anda.',
+                    });
                 }
-            );
+            });
         } else {
-            // UPDATE
-            router.put(
-                route('warga.update', editId.value),
-                form.value, {
-                    preserveScroll: true,
-                    onSuccess: () => {
-                        alert('Data berhasil diperbarui');
-                        resetForm();
-                    },
-                    onError: (errors) => {
-                        console.error('Validation errors:', errors);
-                        alert('Gagal memperbarui data. Periksa input Anda.');
-                    }
+            // --- LOGIC UPDATE ---
+            router.post(route('warga.update', editId.value), {
+                ...form.value,
+                _method: 'put',
+            }, {
+                preserveScroll: true,
+                onSuccess: () => {
+                    resetForm();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil Diperbarui!',
+                        text: 'Data warga telah berhasil diupdate.',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true
+                    });
+                },
+                onError: (errors) => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal Memperbarui',
+                        text: 'Terjadi kesalahan saat mengupdate data.',
+                    });
                 }
-            );
+            });
         }
     };
     // Hapus data
     const deleteWarga = (id) => {
-        if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
-            router.delete(route('warga.destroy', id), {
-                preserveScroll: true,
-                onSuccess: () => {
-                    alert('Data berhasil dihapus');
-                },
-            });
-        }
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Data yang dihapus tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                router.delete(route('warga.destroy', id), {
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        Swal.fire({
+                            title: 'Terhapus!',
+                            text: 'Data warga berhasil dihapus.',
+                            icon: 'success',
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                    },
+                    onError: () => {
+                        Swal.fire(
+                            'Gagal!',
+                            'Terjadi kesalahan saat menghapus data.',
+                            'error'
+                        );
+                    }
+                });
+            }
+        });
     };
 </script>
 
@@ -259,27 +310,27 @@
                                                 {{ index + 1 }}
                                             </td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.nik }}</td>
+                                                {{ item . nik }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.nama }}</td>
+                                                {{ item . nama }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.tempat_lahir }}</td>
+                                                {{ item . tempat_lahir }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.tanggal_lahir }}</td>
+                                                {{ item . tanggal_lahir }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.alamat }}</td>
+                                                {{ item . alamat }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.nohp }}</td>
+                                                {{ item . nohp }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.jenis_kelamin }}</td>
+                                                {{ item . jenis_kelamin }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.status_perkawinan }}</td>
+                                                {{ item . status_perkawinan }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.pekerjaan }}</td>
+                                                {{ item . pekerjaan }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.goldar }}</td>
+                                                {{ item . goldar }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.status }}</td>
+                                                {{ item . status }}</td>
                                             <td
                                                 class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                 <button @click="openEditModal(item)"
@@ -368,7 +419,7 @@
                                         class="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 appearance-none">
                                         <option value="" disabled>Pilih Kepala Keluarga</option>
                                         <option v-for="kk in kkOptions" :key="kk.id" :value="kk.id">
-                                            {{ kk.nama }}
+                                            {{ kk . nama }}
                                         </option>
                                     </select>
                                 </div>
@@ -396,7 +447,7 @@
                                         <option value="" disabled>Pilih Email Pengguna</option>
                                         <option v-for="user in userOptions" :key="user.id_user"
                                             :value="user.value">
-                                            {{ user.email }}
+                                            {{ user . email }}
                                         </option>
                                     </select>
                                 </div>

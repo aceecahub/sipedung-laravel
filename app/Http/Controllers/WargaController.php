@@ -44,7 +44,7 @@ class WargaController extends Controller
         $dataValidate = $request->validate([
             'id_user' => 'required',
             'id_kk' => 'required',
-            'nik' => 'required|unique:wargas,nik|numeric',
+            'nik' => 'required|numeric',
             'nama' => 'required|max:255',
             'tempat_lahir' => 'required|max:255',
             'tanggal_lahir' => 'required|date',
@@ -59,7 +59,7 @@ class WargaController extends Controller
 
         Warga::create($dataValidate);
 
-        return redirect()->route('warga.index');
+        return redirect()->route('warga.index')->with('message', 'Data berhasil ditambahkan');
     }
 
     /**
@@ -75,7 +75,7 @@ class WargaController extends Controller
      */
     public function edit(string $id)
     {
-
+        return redirect()->route('warga.index');
     }
 
     /**
@@ -103,7 +103,7 @@ class WargaController extends Controller
 
         $warga->update($dataValidate);
 
-        return redirect()->route('warga.index');
+        return redirect()->route('warga.index')->with('message', 'Data berhasil diupdate');
     }
 
     /**
@@ -115,6 +115,6 @@ class WargaController extends Controller
         $warga->delete();
 
         // Gunakan back() atau route() untuk memicu refresh data props otomatis
-        return redirect()->route('warga.index');
+        return redirect()->route('warga.index')->with('message', 'Data berhasil dihapus');
     }
 }

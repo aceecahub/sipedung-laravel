@@ -20,7 +20,9 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return Inertia::render('rt/Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -34,10 +36,11 @@ Route::get('/login', function () {
 })->name('login');
 
 //RT permission
-Route::resource('kepala-keluarga', KepalaKeluargaController::class)
-    ->middleware(['auth', 'verified']);
+Route::middleware(['auth', 'verified'])->group(function () {
+    // kepala keluarga
+    Route::resource('kepala-keluarga', KepalaKeluargaController::class);
+    // warga
+    Route::resource('warga', WargaController::class);
+});
 
-Route::resource('warga', WargaController::class)
-    ->middleware(['auth', 'verified']);
-
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

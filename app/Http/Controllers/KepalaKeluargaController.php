@@ -76,7 +76,7 @@ class KepalaKeluargaController extends Controller
      */
     public function update(Request $request, KepalaKeluarga $kepalaKeluarga): RedirectResponse
     {
-        $data = $request->validate([
+        $dataValidate = $request->validate([
             'id_user' => 'required',
             'kk' => 'required|numeric',
             'nik' => 'required|numeric',
@@ -89,7 +89,7 @@ class KepalaKeluargaController extends Controller
             'pekerjaan' => 'required|max:255',
         ]);
 
-        $kepalaKeluarga->update($data);
+        $kepalaKeluarga->update($dataValidate);
 
         return redirect()->route('kepala-keluarga.index')->with('message', 'Data berhasil diupdate');
     }

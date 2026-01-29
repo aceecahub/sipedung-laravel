@@ -1,7 +1,7 @@
 <script setup>
     import NavigationLayout from '@/Layouts/NavigationLayout.vue';
     import Modal from '@/Components/Modal.vue';
-    import axios from 'axios';
+    import Swal from 'sweetalert2';
     import {
         Head,
         router
@@ -23,7 +23,7 @@
             default: () => []
         },
         user: {
-            type:Array,
+            type: Array,
             default: () => []
         }
     });
@@ -95,51 +95,101 @@
 
     // Submit form (create atau update)
     const submitForm = () => {
-        if (editId.value === null) {
-            // CREATE
-            router.post(
-                route('kepala-keluarga.store'),
-                form.value, {
-                    preserveScroll: true,
-                    onSuccess: () => {
-                        alert('Data berhasil disimpan');
-                        resetForm();
-                    },
-                    onError: (errors) => {
-                        console.error('Validation errors:', errors);
-                        alert('Gagal menyimpan data. Periksa input Anda.');
-                    }
+        const isUpdate = editId.value !== null;
+        Swal.fire({
+            title: 'Mohon Tunggu...',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        if (!isUpdate) {
+            // --- LOGIC CREATE ---
+            router.post(route('kepala-keluarga.store'), form.value, {
+                preserveScroll: true,
+                onSuccess: () => {
+                    resetForm();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil Disimpan!',
+                        text: 'Data Kepala Keluarga baru telah ditambahkan ke sistem.',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true
+                    });
+                },
+                onError: (errors) => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal Menyimpan',
+                        text: 'Periksa kembali inputan Anda.',
+                    });
                 }
-            );
+            });
         } else {
-            // UPDATE
-            router.put(
-                route('kepala-keluarga.update', editId.value),
-                form.value, {
-                    preserveScroll: true,
-                    onSuccess: () => {  
-                        alert('Data berhasil diperbarui');
-                        resetForm();
-                    },
-                    onError: (errors) => {
-                        console.error('Validation errors:', errors);
-                        alert('Gagal memperbarui data. Periksa input Anda.');
-                    }
+            // --- LOGIC UPDATE ---
+            router.post(route('kepala-keluarga.update', editId.value), {
+                ...form.value,
+                _method: 'put',
+            }, {
+                preserveScroll: true,
+                onSuccess: () => {
+                    resetForm();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil Diperbarui!',
+                        text: 'Data Kepala Keluarga telah berhasil diupdate.',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true
+                    });
+                },
+                onError: (errors) => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal Memperbarui',
+                        text: 'Terjadi kesalahan saat mengupdate data.',
+                    });
                 }
-            );
+            });
         }
     };
 
     // Hapus data
     const deleteKk = (id) => {
-        if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
-            router.delete(route('kepala-keluarga.destroy', id), {
-                preserveScroll: true,
-                onSuccess: () => {
-                    alert('Data berhasil dihapus');
-                },
-            });
-        }
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Data yang dihapus tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                router.delete(route('kepala-keluarga.destroy', id), {
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        Swal.fire({
+                            title: 'Terhapus!',
+                            text: 'Data kepala keluarga berhasil dihapus.',
+                            icon: 'success',
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                    },
+                    onError: () => {
+                        Swal.fire(
+                            'Gagal!',
+                            'Terjadi kesalahan saat menghapus data.',
+                            'error'
+                        );
+                    }
+                });
+            }
+        });
     };
 </script>
 
@@ -372,14 +422,14 @@
                                 </div>
 
                                 <div>
-                                    <label for="id_user"
-                                        class="block text-sm font-medium text-gray-700 mb-1">Akun Pengguna</label>
+                                    <label for="id_user" class="block text-sm font-medium text-gray-700 mb-1">Akun
+                                        Pengguna</label>
                                     <select id="id_user" v-model="form.id_user" required
                                         class="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 appearance-none">
                                         <option value="" disabled selected>Pilih Email Pengguna</option>
                                         <option v-for="user in userOptions" :key="user.id_user"
                                             :value="user.value">
-                                            {{ user.label }}
+                                            {{ user . label }}
                                         </option>
                                     </select>
                                 </div>

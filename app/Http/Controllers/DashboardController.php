@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use Carbon\Carbon;
+use Inertia\Inertia;
+use App\Models\Warga;
 use Illuminate\Http\Request;
+use App\Models\KepalaKeluarga;
 
 class DashboardController extends Controller
 {
@@ -11,7 +16,39 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        //
+        // data total master
+        $kk = KepalaKeluarga::count();
+        $warga = Warga::count();
+
+        // Hitung pemuda dan lansia
+        $age17 = Carbon::now()->subYears(17);
+        $age60 = Carbon::now()->subYears(60);
+
+        // query table
+        $pemuda = Warga::where('tanggal_lahir', '<=', $age17)
+            ->where('tanggal_lahir', '>', $age60)
+            ->count();
+        $lansia = Warga::where('tanggal_lahir', '<', $age60)->count();
+
+        // chart gender warga
+        $gender = Warga::select('jenis_kelamin', DB::raw('count(*) as count'))
+            ->groupBy('jenis_kelamin')
+            ->get();
+
+        // chart status warga
+        $status = Warga::select('status', DB::raw('count(*) as count'))
+            ->groupBy('status')
+            ->get();
+
+        // return inertia
+        return Inertia::render('rt/Dashboard', [
+            'kk' => $kk,
+            'warga' => $warga,
+            'pemuda' => $pemuda,
+            'lansia' => $lansia,
+            'gender' => $gender,
+            'status' => $status
+        ]);
     }
 
     /**

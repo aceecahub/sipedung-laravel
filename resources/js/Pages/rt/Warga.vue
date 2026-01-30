@@ -310,27 +310,27 @@
                                                 {{ index + 1 }}
                                             </td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item . nik }}</td>
+                                                {{ item.nik }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item . nama }}</td>
+                                                {{ item.nama }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item . tempat_lahir }}</td>
+                                                {{ item.tempat_lahir }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item . tanggal_lahir }}</td>
+                                                {{ item.tanggal_lahir }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item . alamat }}</td>
+                                                {{ item.alamat }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item . nohp }}</td>
+                                                {{ item.nohp }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item . jenis_kelamin }}</td>
+                                                {{ item.jenis_kelamin }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item . status_perkawinan }}</td>
+                                                {{ item.status_perkawinan }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item . pekerjaan }}</td>
+                                                {{ item.pekerjaan }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item . goldar }}</td>
+                                                {{ item.goldar }}</td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item . status }}</td>
+                                                {{ item.status }}</td>
                                             <td
                                                 class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                 <button @click="openEditModal(item)"

@@ -6,6 +6,7 @@ use Illuminate\Foundation\Application;
 
 // controller
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KepalaKeluargaController;
 use App\Http\Controllers\WargaController;
 
@@ -18,9 +19,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('rt/Dashboard');
-})
+Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 

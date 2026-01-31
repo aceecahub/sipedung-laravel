@@ -18,10 +18,10 @@
             <div class="flex mt-5 gap-5">
                 <div class="relative ml-1 p-4 rounded-2xl w-190 h-105 bg-blue-50 shadow-xl">
                     <div class="relative">
-                        <img data-aos="fade-up" data-aos-delay="300" src="src/img/login/kendung.jpg"
+                        <img data-aos="fade-up" data-aos-delay="200" src="src/img/login/kendung.jpg"
                             alt="Kampung Kendung" class="h-96 object-cover rounded-2xl w-full" />
                         <div data-aos="fade-up"
-                                data-aos-delay="400"
+                                data-aos-delay="100"
                             class="container absolute -bottom-9 -right-8 h-25 bg-blue-500 p-4 rounded-xl shadow-lg backdrop-blur-sm w-48">
                             <div class="flex items-center justify-center h-full">
                                 <div>
@@ -33,18 +33,18 @@
                     </div>
                 </div>
                 <div class="w-1/2 text-gray-600 text-md">
-                    <p>
+                    <p data-aos="fade-up" data-aos-delay="300">
                         Kampung Kendung telah menjadi saksi bisu perjalanan panjang sejak tahun 1952. Dengan
                         komitmen kuat pada pengembangan berkelanjutan, kami telah menemukan keseimbangan
                         sempurna antara melestarikan budaya lokal dan mengadopsi kemajuan teknologi modern.
                     </p>
-                    <p class="my-8">
+                    <p data-aos="fade-up" data-aos-delay="400" class="my-8">
                         Hari ini, Kampung Kendung dikenal sebagai salah satu desa percontohan di Indonesia yang
                         berhasil menggabungkan kenyamanan hidup modern dengan kelestarian lingkungan. Setiap
                         sudut desa dirancang dengan penuh perhatian untuk menciptakan ruang hidup yang nyaman,
                         aman, dan penuh makna.
                     </p>
-                    <div class="grid grid-cols-2 gap-4 mt-4">
+                    <div data-aos="fade-up" data-aos-delay="500" class="grid grid-cols-2 gap-4 mt-4">
                         <div class="bg-blue-50 p-4 rounded-lg shadow">
                             <h3 class="font-semibold text-lg text-blue-500">Jumlah Warga</h3>
                             <p class="text-sm text-gray-600">Populasi yang stabil dan berkembang</p>

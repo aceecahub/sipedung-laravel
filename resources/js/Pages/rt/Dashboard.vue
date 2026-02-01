@@ -245,12 +245,12 @@
             <!-- Header -->
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
-                    <h1 class="text-2xl font-bold text-gray-900">Dashboard RT</h1>
-                    <p class="mt-2 text-sm text-gray-700">
+                    <h1 class="text-2xl font-bold text-gray-900" data-aos="fade-up">Dashboard RT</h1>
+                    <p class="mt-2 text-sm text-gray-700" data-aos="fade-up" data-aos-delay="50">
                         Ringkasan data dan statistik warga Kampung Anda
                     </p>
                 </div>
-                <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+                <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none" data-aos="fade-up">
                     <button type="button"
                         class="inline-flex items-center justify-center rounded-md border border-transparent bg-green-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-600 transition-colors duration-200 sm:w-auto">
                         <DocumentArrowDownIcon class="h-5 w-5 mr-2" />
@@ -260,82 +260,110 @@
             </div>
 
             <!-- Stats -->
-            <div class="mt-4">
-                <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="mt-8" data-aos="fade-up" data-aos-delay="100">
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                     <div v-for="(stat, statIdx) in stats" :key="stat.name"
-                        :class="['bg-white overflow-hidden shadow-sm rounded-lg hover:shadow-md transition-shadow duration-200',
-                            statIdx === 0 ? 'sm:rounded-l-lg' : '',
-                            statIdx === stats.length - 1 ? 'sm:rounded-r-lg' : ''
-                        ]">
-                        <div class="px-4 py-5 sm:p-6">
-                            <dt class="font-semibold text-gray-500">{{ stat . name }}</dt>
-                            <div class="flex">
-                                <dd class="mt-1 text-3xl font-semibold text-gray-900">{{ stat . value }}</dd>
-                                <component :is="stat.icon"
-                                    class="h-10 w-10 ml-20 flex-shrink-0 text-gray-500 hover:text-blue-500 transition-colors duration-200" />
-                            </div>
-                            <div class="mt-2">
-                                <span
-                                    :class="[
-                                        stat.changeType === 'increase' ? 'bg-green-100 text-green-800' :
-                                        'bg-red-100 text-red-800',
-                                        'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium'
-                                    ]">
-                                    {{ stat . change }}
-                                </span>
-                                <span class="text-sm text-gray-500 ml-1">dari bulan lalu</span>
+                        class="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 group">
+                        <!-- Gradient backgrounds untuk setiap kartu -->
+                        <div :class="[
+                            'absolute inset-0',
+                            statIdx === 0 ? 'bg-gradient-to-br from-blue-400 to-blue-600' :
+                            statIdx === 1 ? 'bg-gradient-to-br from-green-400 to-green-600' :
+                            statIdx === 2 ? 'bg-gradient-to-br from-purple-400 to-purple-600' :
+                            'bg-gradient-to-br from-orange-400 to-orange-600'
+                        ]"></div>
+                        
+                        <!-- Decorative element -->
+                        <div class="absolute -top-8 -right-8 w-32 h-32 rounded-full opacity-20 bg-white"></div>
+                        
+                        <div class="relative px-6 py-8 sm:p-8">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <dt class="text-sm font-medium text-white text-opacity-90">{{ stat.name }}</dt>
+                                    <dd class="mt-3 text-4xl font-bold text-white">{{ stat.value }}</dd>
+                                    <div class="mt-4">
+                                        <span
+                                            :class="[
+                                                stat.changeType === 'increase' ? 'bg-green-500 text-white' :
+                                                'bg-red-500 text-white',
+                                                'inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold'
+                                            ]">
+                                            {{ stat.change }}
+                                        </span>
+                                        <span class="text-xs text-white text-opacity-80 ml-2">dari bulan lalu</span>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0 ml-4">
+                                    <div class="flex items-center justify-center h-14 w-14 rounded-lg bg-white bg-opacity-20 group-hover:bg-opacity-30 transition-all duration-200">
+                                        <component :is="stat.icon"
+                                            class="h-8 w-8 text-white" />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-2">
+            <div class="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2" data-aos="fade-up" data-aos-delay="120">
                 <!-- Gender Chart -->
-                <div class="bg-white overflow-hidden shadow rounded-lg">
-                    <div class="px-4 py-5 sm:p-6">
-                        <h3 class="text-lg font-medium leading-6 text-gray-900">Persentase Gender Warga</h3>
-                        <div class="mt-6 h-80">
+                <div class="bg-white overflow-hidden shadow-lg rounded-xl hover:shadow-xl transition-shadow duration-300">
+                    <div class="px-6 py-8">
+                        <div class="flex items-center">
+                            <div class="w-full">
+                                <h3 class="text-lg font-bold text-gray-900">Persentase Gender Warga</h3>
+                                <p class="text-sm text-gray-500 mt-1">Distribusi jenis kelamin warga</p>
+                            </div>
+                        </div>
+                        <div class="mt-8 h-80">
                             <canvas id="genderChart"></canvas>
                         </div>
                     </div>
                 </div>
-                <div class="bg-white overflow-hidden shadow rounded-lg">
-                    <div class="px-4 py-5 sm:p-6">
-                        <h3 class="text-lg font-medium leading-6 text-gray-900">Jumlah Status Warga</h3>
-                        <div class="mt-6 h-80">
+                
+                <!-- Status Chart -->
+                <div class="bg-white overflow-hidden shadow-lg rounded-xl hover:shadow-xl transition-shadow duration-300">
+                    <div class="px-6 py-8">
+                        <div class="flex items-center">
+                            <div class="w-full">
+                                <h3 class="text-lg font-bold text-gray-900">Jumlah Status Warga</h3>
+                                <p class="text-sm text-gray-500 mt-1">Status hidup, meninggal, dan pindah</p>
+                            </div>
+                        </div>
+                        <div class="mt-8 h-80">
                             <canvas id="statusChart"></canvas>
                         </div>
                     </div>
                 </div>
 
                 <!-- Recent Activity -->
-                <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-                    <div class="px-4 py-5 sm:px-6">
-                        <h3 class="text-lg font-medium leading-6 text-gray-900">Aktivitas Terkini</h3>
+                <div class="bg-white shadow-lg overflow-hidden rounded-xl hover:shadow-xl transition-shadow duration-300 lg:col-span-2">
+                    <div class="px-6 py-8 border-b border-gray-100">
+                        <h3 class="text-lg font-bold text-gray-900">Aktivitas Terkini</h3>
+                        <p class="text-sm text-gray-500 mt-1">Riwayat perubahan data terbaru</p>
                     </div>
-                    <div class="border-t border-gray-200">
-                        <ul role="list" class="divide-y divide-gray-200">
-                            <li v-for="activity in activities" :key="activity.id" class="px-6 py-4">
+                    <div>
+                        <ul role="list" class="divide-y divide-gray-100">
+                            <li v-for="activity in activities" :key="activity.id" class="px-6 py-5 hover:bg-gray-50 transition-colors duration-200">
                                 <div class="flex items-center space-x-4">
                                     <div class="flex-shrink-0">
                                         <div
-                                            class="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center">
+                                            class="h-10 w-10 rounded-full bg-gradient-to-br from-indigo-400 to-indigo-600 flex items-center justify-center shadow-md">
                                             <span
-                                                class="text-indigo-600 font-medium">{{ activity . user . charAt(0) }}</span>
+                                                class="text-white font-bold text-sm">{{ activity.user.charAt(0) }}</span>
                                         </div>
                                     </div>
                                     <div class="flex-1 min-w-0">
-                                        <p class="text-sm font-medium text-gray-900 truncate">
-                                            {{ activity . user }}
+                                        <p class="text-sm font-semibold text-gray-900">
+                                            {{ activity.user }}
                                         </p>
-                                        <p class="text-sm text-gray-500 truncate">
-                                            {{ activity . action }}
+                                        <p class="text-sm text-gray-600 mt-1">
+                                            {{ activity.action }}
                                         </p>
                                     </div>
-                                    <div>
-                                        <p class="text-sm text-gray-500">
-                                            {{ activity . time }}
+                                    <div class="text-right">
+                                        <p class="text-sm font-medium text-gray-500">
+                                            {{ activity.time }}
                                         </p>
                                     </div>
                                 </div>
@@ -349,5 +377,32 @@
 </template>
 
 <style scoped>
-    /* Custom styles if needed */
+    /* Smooth transitions for cards */
+    :deep(.group) {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* Enhanced hover effects */
+    @media (hover: hover) {
+        :deep(.group:hover) {
+            transform: translateY(-4px);
+        }
+    }
+    
+    /* Add subtle animation on page load */
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Improved text rendering */
+    h1, h3 {
+        letter-spacing: -0.01em;
+    }
 </style>

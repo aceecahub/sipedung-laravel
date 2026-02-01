@@ -67,7 +67,10 @@ class WargaController extends Controller
      */
     public function show(string $id)
     {
-
+        return response()->json([
+            'message' => 'Menampilkan detail warga',
+            'data' => Warga::findOrFail($id)
+        ], 200);
     }
 
     /**

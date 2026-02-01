@@ -46,7 +46,7 @@
             icon: WalletIcon,
             children: [{
                     name: '17 agustus',
-                    href: '/agustusan',
+                    href: '/kas-agustus',
                     icon:  BanknotesIcon
                 },
                 {

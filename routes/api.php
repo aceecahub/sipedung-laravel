@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 // controller
 use App\Http\Controllers\WargaController;
+use App\Http\Controllers\KasAgustusController;
 use App\Http\Controllers\KepalaKeluargaController;
 
 Route::get('/user', function (Request $request) {
@@ -17,4 +18,7 @@ Route::apiResource('kk', KepalaKeluargaController::class);
 
 // Warga
 Route::apiResource('wg', WargaController::class);
+
+// Kas Agustus
+Route::apiResource('kas', KasAgustusController::class);
 

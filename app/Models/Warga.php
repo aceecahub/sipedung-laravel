@@ -26,4 +26,9 @@ class Warga extends Model
         return $this->belongsTo(KepalaKeluarga::class, 'id_kk');
     }
 
+    // Kas Agustus
+    public function kasAgustus()
+    {
+        return $this->hasMany(KasAgustus::class, 'id_warga');
+    }
 }

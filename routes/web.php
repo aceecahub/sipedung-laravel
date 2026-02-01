@@ -5,10 +5,11 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 
 // controller
+use App\Http\Controllers\WargaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KasAgustusController;
 use App\Http\Controllers\KepalaKeluargaController;
-use App\Http\Controllers\WargaController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -40,6 +41,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('kepala-keluarga', KepalaKeluargaController::class);
     // warga
     Route::resource('warga', WargaController::class);
+    // Kas Agustus
+    Route::resource('kas-agustus', KasAgustusController::class);
 });
 
 require __DIR__ . '/auth.php';

@@ -62,7 +62,7 @@
             value: props.warga || 0,
             icon: UserIcon,
             change: '+8%',
-            changeType: 'increase'
+            changeType: 'decrease'
         },
         {
             name: 'Pemuda/Pemudi',
@@ -142,11 +142,17 @@
 
     // Format data untuk chart status (jumlah bukan persentase)
     const statusData = computed(() => {
+        const colorMap = {
+            'Hidup': '#10B981',
+            'Meninggal': '#EF4444',
+            'Pindah': '#F59E0B'
+        };
+
         const data = {
             labels: [],
             datasets: [{
                 data: [],
-                backgroundColor: ['#10B981', '#EF4444', '#F59E0B'],
+                backgroundColor: [],
                 borderWidth: 0,
             }]
         };
@@ -155,11 +161,13 @@
             props.status.forEach(item => {
                 data.labels.push(item.status);
                 data.datasets[0].data.push(item.count);
+                data.datasets[0].backgroundColor.push(colorMap[item.status] || '#9CA3AF');
             });
         } else {
             // Default jika tidak ada data
             data.labels = ['Hidup', 'Meninggal', 'Pindah'];
             data.datasets[0].data = [0, 0, 0];
+            data.datasets[0].backgroundColor = [colorMap['Hidup'], colorMap['Meninggal'], colorMap['Pindah']];
         }
 
         return data;
@@ -274,12 +282,12 @@
                         ]"></div>
                         
                         <!-- Decorative element -->
-                        <div class="absolute -top-8 -right-8 w-32 h-32 rounded-full opacity-20 bg-white"></div>
+                        <div class="absolute -top-8 -right-8 w-32 h-32 rounded-full opacity-20 bg-slate-200"></div>
                         
                         <div class="relative px-6 py-8 sm:p-8">
                             <div class="flex items-start justify-between">
                                 <div class="flex-1">
-                                    <dt class="text-sm font-medium text-white text-opacity-90">{{ stat.name }}</dt>
+                                    <dt class="text-xl font-bold text-white text-opacity-90">{{ stat.name }}</dt>
                                     <dd class="mt-3 text-4xl font-bold text-white">{{ stat.value }}</dd>
                                     <div class="mt-4">
                                         <span
@@ -293,7 +301,7 @@
                                         <span class="text-xs text-white text-opacity-80 ml-2">dari bulan lalu</span>
                                     </div>
                                 </div>
-                                <div class="flex-shrink-0 ml-4">
+                                <div class="flex-shrink-0 ml-8">
                                     <div class="flex items-center justify-center h-14 w-14 rounded-lg bg-white bg-opacity-20 group-hover:bg-opacity-30 transition-all duration-200">
                                         <component :is="stat.icon"
                                             class="h-8 w-8 text-white" />

@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
-use App\Models\User;
-use App\Models\KepalaKeluarga;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+// Models
+use App\Models\User;
+use App\Models\Pemuda;
+use App\Models\KepalaKeluarga;
 
 class Warga extends Model
 {
@@ -30,5 +33,11 @@ class Warga extends Model
     public function kasAgustus()
     {
         return $this->hasMany(KasAgustus::class, 'id_warga');
+    }
+
+    // pemuda
+    public function pemuda()
+    {
+        return $this->belongsTo(Pemuda::class, 'id_warga');
     }
 }

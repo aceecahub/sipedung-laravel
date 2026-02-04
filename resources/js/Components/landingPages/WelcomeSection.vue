@@ -24,7 +24,6 @@
 </script>
 
 <template>
-    <h1></h1>
     <section :class="styleSection" :style="bgStyle" style="font-family: playfair-display">
         <div class="container flex items-center justify-center mx-auto h-full">
             <div class="mt-25 text-center" data-aos="fade-up">

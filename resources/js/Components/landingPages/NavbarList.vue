@@ -54,7 +54,7 @@ const styleNav = ref('cursor-pointer hover:text-blue-500 font-medium transition-
 <template>
   <nav
   class="fixed w-full z-50 transition-all duration-300 h-15"
-  :class="isScrolled ? 'bg-white shadow-md text-gray-800' : 'text-white'"
+  :class="isScrolled ? 'bg-white shadow-md text-gray-800 rounded-b-full' : 'text-white'"
 >
     <div class="container mx-auto px-4 py-3 flex justify-between items-center h-full">
       <div class="flex items-center">

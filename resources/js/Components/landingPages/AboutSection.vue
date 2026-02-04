@@ -25,7 +25,7 @@
                             class="container absolute -bottom-9 -right-8 h-25 bg-blue-500 p-4 rounded-xl shadow-lg backdrop-blur-sm w-48">
                             <div class="flex items-center justify-center h-full">
                                 <div>
-                                    <p class="font-medium text-lg text-white">Sejak Berdiri</p>
+                                    <p class="font-medium text-lg text-white">Berdiri Sejak</p>
                                     <p class="text-xl font-bold text-white">Tahun 1952</p>
                                 </div>
                             </div>

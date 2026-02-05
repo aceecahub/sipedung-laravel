@@ -215,7 +215,7 @@ const confirmDelete = (id) => {
                                                             aria-label="Edit"
                                                         >
                                                             <PencilSquareIcon
-                                                                class="h-4.5 w-4.5"
+                                                                class="h-5"
                                                             />
                                                         </button>
                                                         <button
@@ -228,7 +228,7 @@ const confirmDelete = (id) => {
                                                             aria-label="Hapus"
                                                         >
                                                             <TrashIcon
-                                                                class="h-4.5 w-4.5"
+                                                                class="h-5"
                                                             />
                                                         </button>
                                                     </div>

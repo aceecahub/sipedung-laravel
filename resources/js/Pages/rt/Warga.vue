@@ -225,159 +225,157 @@
                 </div>
             </div>
 
-            <!-- Search & Add Button -->
-            <div class="flex justify-between mt-10">
-                <div class="flex gap-3">
-                    <input type="text" class="rounded-xl h-9 border border-gray-300 px-3" placeholder="Cari Warga" />
-                    <button
+            <!-- Container -->
+            <div class="p-6 mt-4 bg-white rounded-xl shadow-md ring-1 ring-gray-200">
+                <!-- Search & Add Button -->
+                <div class="flex justify-between mt-2">
+                    <div class="flex gap-3">
+                        <input type="text" class="rounded-xl h-9 border border-gray-300 px-3" placeholder="Cari Warga" />
+                        <button
+                            class="bg-blue-500 rounded-md py-1 px-2 text-white hover:bg-blue-600 transition-colors duration-200">
+                            <MagnifyingGlassIcon class="h-5 w-5" />
+                        </button>
+                    </div>
+                    <button @click="openCreateModal"
                         class="bg-blue-500 rounded-md py-1 px-2 text-white hover:bg-blue-600 transition-colors duration-200">
-                        <MagnifyingGlassIcon class="h-5 w-5" />
+                        + Warga
                     </button>
                 </div>
-                <button @click="openCreateModal"
-                    class="bg-blue-500 rounded-md py-1 px-2 text-white hover:bg-blue-600 transition-colors duration-200">
-                    + Warga
-                </button>
-            </div>
 
-            <!-- Table Section -->
-            <div class="mt-4 flow-root">
-                <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-                            <div class="overflow-x-auto">
-                                <table class="min-w-full divide-y divide-gray-300">
-                                    <thead class="bg-gray-200">
-                                        <tr>
-                                            <th scope="col"
-                                                class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 whitespace-nowrap">
-                                                No
-                                            </th>
-                                            <th scope="col"
-                                                class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">
-                                                NIK
-                                            </th>
-                                            <th scope="col"
-                                                class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">
-                                                Nama
-                                            </th>
-                                            <th scope="col"
-                                                class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">
-                                                Tempat Lahir
-                                            </th>
-                                            <th scope="col"
-                                                class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">
-                                                Tgl. Lahir
-                                            </th>
-                                            <th scope="col"
-                                                class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">
-                                                Alamat
-                                            </th>
-                                            <th scope="col"
-                                                class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">
-                                                No. HP
-                                            </th>
-                                            <th scope="col"
-                                                class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">
-                                                Jenis Kelamin
-                                            </th>
-                                            <th scope="col"
-                                                class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">
-                                                Status Kawin
-                                            </th>
-                                            <th scope="col"
-                                                class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">
-                                                Pekerjaan
-                                            </th>
-                                            <th scope="col"
-                                                class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">
-                                                Gol. Darah
-                                            </th>
-                                            <th scope="col"
-                                                class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">
-                                                Status
-                                            </th>
-                                            <th scope="col"
-                                                class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">
-                                                Aksi
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-gray-200 bg-white">
-                                        <tr v-for="(item, index) in warga" :key="item.id_warga"
-                                            class="hover:bg-slate-50 transition-colors duration-150">
-                                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-500 sm:pl-6">
-                                                {{ index + 1 }}
-                                            </td>
-                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.nik }}</td>
-                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.nama }}</td>
-                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.tempat_lahir }}</td>
-                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.tanggal_lahir }}</td>
-                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.alamat }}</td>
-                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.nohp }}</td>
-                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.jenis_kelamin }}</td>
-                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.status_perkawinan }}</td>
-                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.pekerjaan }}</td>
-                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.goldar }}</td>
-                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                                {{ item.status }}</td>
-                                            <td
-                                                class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                                <button @click="openEditModal(item)"
-                                                    class="text-blue-600 hover:text-blue-900 mr-4">
-                                                    <PencilSquareIcon class="h-5 w-5 inline" />
-                                                </button>
-                                                <button @click="deleteWarga(item.id_warga)"
-                                                    class="text-red-600 hover:text-red-900">
-                                                    <TrashIcon class="h-5 w-5 inline" />
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                <!-- Table Section -->
+                <div class="mt-4 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+                    <div class="overflow-auto max-h-[600px]">
+                        <table class="min-w-full divide-y divide-gray-300">
+                                        <thead class="bg-gray-200 sticky top-0 z-10">
+                                            <tr>
+                                                <th scope="col"
+                                                    class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 whitespace-nowrap">
+                                                    No
+                                                </th>
+                                                <th scope="col"
+                                                    class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">
+                                                    NIK
+                                                </th>
+                                                <th scope="col"
+                                                    class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">
+                                                    Nama
+                                                </th>
+                                                <th scope="col"
+                                                    class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">
+                                                    Tempat Lahir
+                                                </th>
+                                                <th scope="col"
+                                                    class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">
+                                                    Tgl. Lahir
+                                                </th>
+                                                <th scope="col"
+                                                    class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">
+                                                    Alamat
+                                                </th>
+                                                <th scope="col"
+                                                    class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">
+                                                    No. HP
+                                                </th>
+                                                <th scope="col"
+                                                    class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">
+                                                    Jenis Kelamin
+                                                </th>
+                                                <th scope="col"
+                                                    class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">
+                                                    Status Kawin
+                                                </th>
+                                                <th scope="col"
+                                                    class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">
+                                                    Pekerjaan
+                                                </th>
+                                                <th scope="col"
+                                                    class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">
+                                                    Gol. Darah
+                                                </th>
+                                                <th scope="col"
+                                                    class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">
+                                                    Status
+                                                </th>
+                                                <th scope="col"
+                                                    class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 whitespace-nowrap">
+                                                    Aksi
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-200 bg-white">
+                                            <tr v-for="(item, index) in warga" :key="item.id_warga"
+                                                class="hover:bg-slate-50 transition-colors duration-150">
+                                                <td
+                                                    class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-500 sm:pl-6">
+                                                    {{ index + 1 }}
+                                                </td>
+                                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
+                                                    {{ item.nik }}</td>
+                                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
+                                                    {{ item.nama }}</td>
+                                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
+                                                    {{ item.tempat_lahir }}</td>
+                                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
+                                                    {{ item.tanggal_lahir }}</td>
+                                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
+                                                    {{ item.alamat }}</td>
+                                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
+                                                    {{ item.nohp }}</td>
+                                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
+                                                    {{ item.jenis_kelamin }}</td>
+                                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
+                                                    {{ item.status_perkawinan }}</td>
+                                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
+                                                    {{ item.pekerjaan }}</td>
+                                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
+                                                    {{ item.goldar }}</td>
+                                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
+                                                    {{ item.status }}</td>
+                                                <td
+                                                    class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                                    <button @click="openEditModal(item)"
+                                                        class="text-blue-600 hover:text-blue-900 mr-4">
+                                                        <PencilSquareIcon class="h-5 w-5 inline" />
+                                                    </button>
+                                                    <button @click="deleteWarga(item.id_warga)"
+                                                        class="text-red-600 hover:text-red-900">
+                                                        <TrashIcon class="h-5 w-5 inline" />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
 
-                                <!-- Pagination -->
-                                <div v-if="kk.length > 0"
-                                    class="p-2 flex items-center justify-between border-t border-gray-200 pt-4">
-                                    <div class="text-sm text-gray-700">
-                                        Menampilkan <span class="font-bold">1</span> hingga <span
-                                            class="font-bold">10</span> dari
-                                        <span class="font-bold">{{ totalData }}</span> hasil
+                                    <!-- Pagination -->
+                                    <div v-if="kk.length > 0"
+                                        class="p-2 flex items-center justify-between border-t border-gray-200 pt-4 bg-white sticky bottom-0 z-10">
+                                        <div class="text-sm text-gray-700">
+                                            Menampilkan <span class="font-bold">1</span> hingga <span
+                                                class="font-bold">10</span> dari
+                                            <span class="font-bold">{{ totalData }}</span> hasil
+                                        </div>
+                                        <div class="flex space-x-2">
+                                            <!-- Previous Button -->
+                                            <button
+                                                class="relative inline-flex items-center px-3 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-100"
+                                                :disabled="currentPage === 1" v-if="currentPage > 1">
+                                                Sebelumnya
+                                            </button>
+
+                                            <!-- Page Numbers -->
+                                            <button v-for="page in [1, 2, 3]" :key="page"
+                                                class="relative inline-flex items-center px-3 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-100"
+                                                :class="{ 'bg-blue-50 text-blue-700 border-blue-500': page === 1 }">
+                                                {{ page }}
+                                            </button>
+
+                                            <!-- Next Button -->
+                                            <button
+                                                class="relative inline-flex items-center px-3 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-100">
+                                                Selanjutnya
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div class="flex space-x-2">
-                                        <!-- Previous Button -->
-                                        <button
-                                            class="relative inline-flex items-center px-3 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-100"
-                                            :disabled="currentPage === 1" v-if="currentPage > 1">
-                                            Sebelumnya
-                                        </button>
-
-                                        <!-- Page Numbers -->
-                                        <button v-for="page in [1, 2, 3]" :key="page"
-                                            class="relative inline-flex items-center px-3 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-100"
-                                            :class="{ 'bg-blue-50 text-blue-700 border-blue-500': page === 1 }">
-                                            {{ page }}
-                                        </button>
-
-                                        <!-- Next Button -->
-                                        <button
-                                            class="relative inline-flex items-center px-3 py-2 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-100">
-                                            Selanjutnya
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

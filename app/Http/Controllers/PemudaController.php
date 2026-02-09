@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pemuda;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Carbon\Carbon;
+
+// Models
+use App\Models\Warga;
+use App\Models\Pemuda;
 
 class PemudaController extends Controller
 {
@@ -12,7 +17,16 @@ class PemudaController extends Controller
      */
     public function index()
     {
-        
+        $pemuda = Pemuda::with('warga')->get();
+        $warga = Warga::select('id_warga', 'nama')
+        ->where('status', 'Hidup')
+        ->where('status_perkawinan', 'Belum Menikah')
+        ->whereDate('tanggal_lahir', '>=', Carbon::now()->subYears(16))
+        ->get();
+        return Inertia::render('rt/Dashboard', [
+            'pemuda' => $pemuda,
+            'warga' => $warga,
+        ]);
     }
 
     /**

@@ -15,21 +15,23 @@
     import {
         UserIcon,
         UserGroupIcon,
-        DocumentArrowDownIcon
+        DocumentArrowDownIcon,
+        PencilSquareIcon,
+        TrashIcon
     } from '@heroicons/vue/24/outline';
 
-    // data count dari controller
+    // Unified props definition
     const props = defineProps({
         kk: {
             type: Number,
             default: 0
         },
         warga: {
-            type: Number,
+            type: [Array, Number],
             default: 0
         },
         pemuda: {
-            type: Number,
+            type: [Array, Number],
             default: 0
         },
         lansia: {
@@ -49,6 +51,13 @@
     // Register Chart.js components
     Chart.register(...registerables);
 
+    // Helpers to get count
+    const getCount = (val) => {
+        if (Array.isArray(val)) return val.length;
+        if (typeof val === 'number') return val;
+        return 0;
+    };
+
     // Sample data (ganti dengan data asli dari backend)
     const stats = computed(() => [{
             name: 'Total Kepala Keluarga',
@@ -59,14 +68,14 @@
         },
         {
             name: 'Total Warga',
-            value: props.warga || 0,
+            value: getCount(props.warga),
             icon: UserIcon,
             change: '+8%',
             changeType: 'decrease'
         },
         {
             name: 'Pemuda/Pemudi',
-            value: props.pemuda || 0,
+            value: getCount(props.pemuda),
             icon: UserIcon,
             change: '+5%',
             changeType: 'increase'
@@ -242,7 +251,7 @@
         }
     });
 
-    // chart status
+    // Unified props handle everything above
 </script>
 
 <template>
@@ -344,6 +353,54 @@
                     </div>
                 </div>
 
+                <!-- Table Pemuda -->
+                <div class="bg-white shadow-lg overflow-hidden rounded-xl hover:shadow-xl transition-shadow duration-300 lg:col-span-2">
+                    <div class="px-6 py-8 border-b border-gray-100">
+                        <h3 class="text-lg font-bold text-gray-900">Tabel Pemuda</h3>
+                        <p class="text-sm text-gray-500 mt-1">Daftar pemuda</p>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table v-if="Array.isArray(pemuda) && pemuda.length > 0" class="min-w-full divide-y divide-gray-300">
+                            <thead class="bg-gray-200">
+                                <tr>
+                                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">No</th>
+                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Nama Warga</th>
+                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Jabatan</th>
+                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
+                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 bg-white">
+                                <tr v-for="(item, index) in pemuda" :key="item.id_pemuda" class="hover:bg-slate-50 transition-colors duration-150">
+                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ index + 1 }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{{ item.warga?.nama || '-' }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{{ item.jabatan }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm">
+                                        <span :class="[
+                                            item.status === 'Aktif' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800',
+                                            'inline-flex rounded-full px-2 text-xs font-semibold leading-5'
+                                        ]">
+                                            {{ item.status }}
+                                        </span>
+                                    </td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
+                                        <div class="flex space-x-2">
+                                            <button type="button" class="p-2 rounded-lg text-blue-600 hover:bg-blue-50 hover:text-blue-800 transition-colors duration-150">
+                                                <PencilSquareIcon class="h-5 w-5" />
+                                            </button>
+                                            <button type="button" class="p-2 rounded-lg text-red-600 hover:bg-red-50 hover:text-red-800 transition-colors duration-150">
+                                                <TrashIcon class="h-5 w-5" />
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div v-else class="p-6 text-center text-gray-500">
+                            Belum ada data pemuda.
+                        </div>
+                    </div>
+                </div>
                 <!-- Recent Activity -->
                 <div class="bg-white shadow-lg overflow-hidden rounded-xl hover:shadow-xl transition-shadow duration-300 lg:col-span-2">
                     <div class="px-6 py-8 border-b border-gray-100">

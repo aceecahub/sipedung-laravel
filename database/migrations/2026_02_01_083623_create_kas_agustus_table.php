@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('kas_agustus', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('id_kk')->constrained('kepala_keluargas')->references('id_kk');
             $table->foreignId('id_warga')->constrained('wargas')->references('id_warga');
             $table->integer('jumlah');
             $table->date('tanggal');
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kas_agustuses');
+        Schema::dropIfExists('kas_agustus');
     }
 };

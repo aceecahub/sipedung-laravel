@@ -6,7 +6,7 @@ services:
       args:
         - UID=1000
         - GID=1000
-    container_name: sipedung-app
+    container_name: laravel-app
     volumes:
       - .:/var/www
     depends_on:
@@ -16,7 +16,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: sipedung-nginx
+    container_name: laravel-nginx
     ports:
       - "8000:80"
     volumes:
@@ -29,7 +29,7 @@ services:
 
   mysql:
     image: mysql:8.0
-    container_name: sipedung-mysql
+    container_name: laravel-mysql
     restart: unless-stopped
     ports:
       - "3307:3306"
@@ -45,7 +45,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: sipedung-phpmyadmin
+    container_name: laravel-phpmyadmin
     ports:
       - "8081:80"
     environment:
@@ -59,6 +59,7 @@ services:
 
 networks:
   laravel:
+
 
 volumes:
   dbdata:

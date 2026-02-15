@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('pemudas', function (Blueprint $table) {
             $table->id('id_pemuda');
             $table->foreignId('id_warga')->constrained('wargas')->references('id_warga');
-            $table->enum('jabatan', ['Ketua', 'Wakil Ketua', 'Sekretaris', 'Bendahara', 'Anggota']);
-            $table->enum('status', ['Aktif', 'Nonaktif']);
+            $table->enum('jabatan', ['Ketua', 'Wakil Ketua', 'Sekretaris', 'Bendahara', 'Anggota'])->default('Anggota');
+            $table->enum('status', ['Aktif', 'Nonaktif'])->default('Aktif');
             $table->timestamps();
         });
     }

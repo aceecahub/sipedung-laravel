@@ -8,6 +8,7 @@ import {
     MagnifyingGlassIcon,
     TrashIcon,
     PencilSquareIcon,
+    UserIcon,
 } from "@heroicons/vue/24/outline";
 import { ref } from "vue";
 
@@ -394,20 +395,33 @@ const deleteKk = (id) => {
                                             </tr>
                                         </template>
 
-                                        <!-- Jika tidak ada data -->
-                                        <tr v-else>
-                                            <td
-                                                :colspan="9"
-                                                class="py-4 text-center"
+                                        <!-- empty data -->
+                                <tr v-else>
+                                    <td :colspan="9" class="py-12 text-center">
+                                        <div
+                                            class="inline-flex flex-col items-center"
+                                        >
+                                            <div
+                                                class="bg-gray-100 border-2 border-dashed rounded-xl w-16 h-16 flex items-center justify-center mb-3"
                                             >
-                                                <div
-                                                    class="text-red-600 font-medium text-sm"
-                                                >
-                                                    ❌ Data kepala keluarga
-                                                    tidak ada.
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                <UserIcon
+                                                    class="h-7 w-7 text-gray-400"
+                                                />
+                                            </div>
+                                            <p
+                                                class="text-sm font-medium text-gray-600"
+                                            >
+                                                Belum ada data warga
+                                            </p>
+                                            <p
+                                                class="text-xs text-gray-500 mt-1"
+                                            >
+                                                Klik tombol "Tambah Warga"
+                                                untuk memulai
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
                                     </tbody>
                                 </table>
 

@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Carbon\Carbon;
 
 // Models
 use App\Models\Warga;
 use App\Models\KepalaKeluarga;
 use App\Models\User;
+use App\Models\Pemuda;
 
 class WargaController extends Controller
 {
@@ -18,7 +20,7 @@ class WargaController extends Controller
      */
     public function index()
     {
-        $warga = Warga::all();
+        $warga = Warga::with('pemuda')->get();
         $kk = KepalaKeluarga::select('id_kk', 'nama')->get();
         $user = User::select('id_user', 'email')->get();
         return Inertia::render('rt/Warga', [
@@ -54,10 +56,27 @@ class WargaController extends Controller
             'status_perkawinan' => 'required|in:Belum Menikah,Menikah,Cerai Hidup,Cerai Mati',
             'pekerjaan' => 'nullable|max:255',
             'goldar' => 'nullable|in:A,B,AB,O',
-            'status' => 'required|in:Hidup,Meninggal,Pindah'
+            'status' => 'required|in:Hidup,Meninggal,Pindah',
+            'jabatan' => 'nullable|in:Ketua,Wakil Ketua,Sekretaris,Bendahara,Anggota'
         ]);
 
-        Warga::create($dataValidate);
+        $warga = Warga::create($dataValidate);
+
+        // Hitung umur untuk cek apakah lansia (>= 60 tahun)
+        $birthDate = Carbon::parse($request->tanggal_lahir);
+        $age = $birthDate->age;
+        $isLansia = $age >= 60;
+        
+        // Cek eligibilitas pemuda berdasarkan status dan status perkawinan
+        $isEligible = $request->status === 'Hidup' && $request->status_perkawinan === 'Belum Menikah' && !$isLansia;
+
+        if (!empty($request->jabatan)) {
+            Pemuda::create([
+                'id_warga' => $warga->id_warga,
+                'jabatan' => $request->jabatan,
+                'status' => $isEligible ? 'Aktif' : 'Nonaktif'
+            ]);
+        }
 
         return redirect()->route('warga.index')->with('message', 'Data berhasil ditambahkan');
     }
@@ -101,10 +120,45 @@ class WargaController extends Controller
             'status_perkawinan' => 'required|in:Belum Menikah,Menikah,Cerai Hidup,Cerai Mati',
             'pekerjaan' => 'nullable|max:255',
             'goldar' => 'nullable|in:A,B,AB,O',
-            'status' => 'required|in:Hidup,Meninggal,Pindah'
+            'status' => 'required|in:Hidup,Meninggal,Pindah',
+            'jabatan' => 'nullable|in:Ketua,Wakil Ketua,Sekretaris,Bendahara,Anggota'
         ]);
 
         $warga->update($dataValidate);
+
+        // Hitung umur untuk cek apakah lansia (>= 60 tahun)
+        $birthDate = Carbon::parse($request->tanggal_lahir);
+        $age = $birthDate->age;
+        $isLansia = $age >= 60;
+        
+        // data pemuda
+        $pemuda = Pemuda::where('id_warga', $id)->first();
+        
+        // Cek eligibilitas pemuda berdasarkan status, status perkawinan, dan BUKAN lansia
+        $isEligible = $request->status === 'Hidup' && $request->status_perkawinan === 'Belum Menikah' && !$isLansia;
+        
+        if (!empty($request->jabatan)) {
+            if (!$pemuda) {
+                Pemuda::create([
+                    'id_warga' => $id,
+                    'jabatan' => $request->jabatan,
+                    'status' => $isEligible ? 'Aktif' : 'Nonaktif'
+                ]);
+            } else {
+                $pemuda->update([
+                    'jabatan' => $request->jabatan,
+                    'status' => $isEligible ? 'Aktif' : 'Nonaktif'
+                ]);
+            }
+        } else {
+            if ($pemuda) {
+                if (!$isEligible) {
+                    $pemuda->update(['status' => 'Nonaktif']);
+                } else {
+                    $pemuda->delete();
+                }
+            }
+        }
 
         return redirect()->route('warga.index')->with('message', 'Data berhasil diupdate');
     }
@@ -114,6 +168,15 @@ class WargaController extends Controller
      */
     public function destroy($id)
     {
+        // Cari data pemuda yang terkait dengan warga ini
+        $pemuda = Pemuda::where('id_warga', $id)->first();
+        
+        // Hapus data pemuda jika ada
+        if ($pemuda) {
+            $pemuda->delete();
+        }
+
+        // Hapus data warga
         $warga = Warga::findOrFail($id);
         $warga->delete();
 

@@ -49,7 +49,7 @@ class KasAgustusController extends Controller
             'keterangan' => 'nullable|max:255',
         ]);
 
-        $kas = KasAgustus::create($dataValidate);
+        $kas = KasAgustus::create($dataValidate); 
         return redirect()->route('kas-agustus.index')->with('success', 'Data kas Agustus berhasil ditambahkan.');
     }
 

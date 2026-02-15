@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use App\Models\Warga;
 use Illuminate\Http\Request;
 use App\Models\KepalaKeluarga;
+use App\Models\Pemuda;
 
 class DashboardController extends Controller
 {
@@ -24,11 +25,14 @@ class DashboardController extends Controller
         $age17 = Carbon::now()->subYears(17);
         $age60 = Carbon::now()->subYears(60);
 
-        // query table
-        $pemuda = Warga::where('tanggal_lahir', '<=', $age17)
+        // query table - untuk count statistik
+        $pemudaCount = Warga::where('tanggal_lahir', '<=', $age17)
             ->where('tanggal_lahir', '>', $age60)
             ->count();
         $lansia = Warga::where('tanggal_lahir', '<', $age60)->count();
+
+        // Ambil data pemuda lengkap dengan kondisi dari PemudaController
+        $pemuda = Pemuda::with('warga')->get();
 
         // chart gender warga
         $gender = Warga::select('jenis_kelamin', DB::raw('count(*) as count'))
@@ -44,7 +48,8 @@ class DashboardController extends Controller
         return Inertia::render('rt/Dashboard', [
             'kk' => $kk,
             'warga' => $warga,
-            'pemuda' => $pemuda,
+            'pemudaCount' => $pemudaCount, // untuk statistik card
+            'pemuda' => $pemuda, // untuk tabel pemuda
             'lansia' => $lansia,
             'gender' => $gender,
             'status' => $status

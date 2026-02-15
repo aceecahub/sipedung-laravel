@@ -16,11 +16,9 @@
         UserIcon,
         UserGroupIcon,
         DocumentArrowDownIcon,
-        PencilSquareIcon,
-        TrashIcon
+        MagnifyingGlassIcon
     } from '@heroicons/vue/24/outline';
 
-    // Unified props definition
     const props = defineProps({
         kk: {
             type: Number,
@@ -30,9 +28,13 @@
             type: [Array, Number],
             default: 0
         },
+        pemudaCount: {
+            type: Number,
+            default: 0
+        },
         pemuda: {
             type: [Array, Number],
-            default: 0
+            default: () => []
         },
         lansia: {
             type: Number,
@@ -75,7 +77,7 @@
         },
         {
             name: 'Pemuda/Pemudi',
-            value: getCount(props.pemuda),
+            value: props.pemudaCount || 0,
             icon: UserIcon,
             change: '+5%',
             changeType: 'increase'
@@ -121,11 +123,16 @@
 
     // Format data untuk chart
     const genderData = computed(() => {
+        const colorGender = {
+            'Laki-laki': '#3B82F6', // Blue
+            'Perempuan': '#EC4899'  // Pink
+        };
+
         const data = {
             labels: [],
             datasets: [{
                 data: [],
-                backgroundColor: ['#EC4899', '#3B82F6'],
+                backgroundColor: [],
                 borderWidth: 0,
             }]
         };
@@ -139,11 +146,13 @@
 
                 data.labels.push(label);
                 data.datasets[0].data.push(parseFloat(percentage));
+                data.datasets[0].backgroundColor.push(colorGender[label] || '#9CA3AF');
             });
         } else {
             // Default jika tidak ada data
             data.labels = ['Laki-laki', 'Perempuan'];
             data.datasets[0].data = [50, 50];
+            data.datasets[0].backgroundColor = [colorGender['Laki-laki'], colorGender['Perempuan']];
         }
 
         return data;
@@ -354,50 +363,92 @@
                 </div>
 
                 <!-- Table Pemuda -->
-                <div class="bg-white shadow-lg overflow-hidden rounded-xl hover:shadow-xl transition-shadow duration-300 lg:col-span-2">
-                    <div class="px-6 py-8 border-b border-gray-100">
+                <div class="p-6 mt-4 bg-white rounded-xl shadow-md ring-1 ring-gray-200 lg:col-span-2">
+                    <!-- Header Section -->
+                    <div class="mb-4">
                         <h3 class="text-lg font-bold text-gray-900">Tabel Pemuda</h3>
-                        <p class="text-sm text-gray-500 mt-1">Daftar pemuda</p>
+                        <p class="text-sm text-gray-500 mt-1">Daftar pemuda/pemudi organisasi</p>
                     </div>
-                    <div class="overflow-x-auto">
-                        <table v-if="Array.isArray(pemuda) && pemuda.length > 0" class="min-w-full divide-y divide-gray-300">
-                            <thead class="bg-gray-200">
-                                <tr>
-                                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">No</th>
-                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Nama Warga</th>
-                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Jabatan</th>
-                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
-                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-200 bg-white">
-                                <tr v-for="(item, index) in pemuda" :key="item.id_pemuda" class="hover:bg-slate-50 transition-colors duration-150">
-                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ index + 1 }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{{ item.warga?.nama || '-' }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">{{ item.jabatan }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm">
-                                        <span :class="[
-                                            item.status === 'Aktif' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800',
-                                            'inline-flex rounded-full px-2 text-xs font-semibold leading-5'
-                                        ]">
-                                            {{ item.status }}
-                                        </span>
-                                    </td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
-                                        <div class="flex space-x-2">
-                                            <button type="button" class="p-2 rounded-lg text-blue-600 hover:bg-blue-50 hover:text-blue-800 transition-colors duration-150">
-                                                <PencilSquareIcon class="h-5 w-5" />
-                                            </button>
-                                            <button type="button" class="p-2 rounded-lg text-red-600 hover:bg-red-50 hover:text-red-800 transition-colors duration-150">
-                                                <TrashIcon class="h-5 w-5" />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div v-else class="p-6 text-center text-gray-500">
-                            Belum ada data pemuda.
+
+                    <!-- Search & Add Button -->
+                    <div class="flex justify-between mt-2">
+                        <div class="flex gap-3">
+                            <input
+                                type="text"
+                                class="rounded-xl h-9 border border-gray-300 px-3"
+                                placeholder="Cari Pemuda"
+                            />
+                            <button
+                                class="bg-blue-500 rounded-md py-1 px-2 text-white hover:bg-blue-600 transition-colors duration-200"
+                            >
+                                <MagnifyingGlassIcon class="h-5 w-5" />
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="mt-4 flow-root">
+                        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                            <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                                <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+                                    <table class="min-w-full divide-y divide-gray-300">
+                                        <thead class="bg-gray-200">
+                                            <tr>
+                                                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                                                    No
+                                                </th>
+                                                <th scope="col" class="py-3.5 text-left text-sm font-semibold text-gray-900">
+                                                    Nama Pemuda/I
+                                                </th>
+                                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                                    Jabatan
+                                                </th>
+                                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                                    Status
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-200 bg-white">
+                                            <template v-if="Array.isArray(pemuda) && pemuda.length > 0">
+                                                <tr
+                                                    v-for="(item, index) in pemuda"
+                                                    :key="item.id_pemuda"
+                                                    class="hover:bg-slate-50 transition-colors duration-150"
+                                                >
+                                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                                        {{ index + 1 }}
+                                                    </td>
+                                                    <td class="whitespace-nowrap py-4 text-sm text-gray-700">
+                                                        {{ item.warga?.nama || '-' }}
+                                                    </td>
+                                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-700">
+                                                        {{ item.jabatan }}
+                                                    </td>
+                                                    <td class="whitespace-nowrap px-3 py-4 text-sm">
+                                                        <span
+                                                            :class="[
+                                                                item.status === 'Aktif' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800',
+                                                                'inline-flex rounded-full px-2 text-xs font-semibold leading-5'
+                                                            ]"
+                                                        >
+                                                            {{ item.status }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </template>
+
+                                            <!-- Jika tidak ada data -->
+                                            <tr v-else>
+                                                <td :colspan="5" class="py-4 text-center">
+                                                    <div class="text-red-600 font-medium text-sm">
+                                                        ❌ Data pemuda tidak ada.
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

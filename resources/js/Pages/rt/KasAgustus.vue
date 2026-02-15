@@ -66,7 +66,7 @@ const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("id-ID", {
         day: "2-digit",
-        month: "short",
+        month: "long",
         year: "numeric",
     });
 };
@@ -236,7 +236,7 @@ const deleteKas = (id) => {
                     <div class="mt-4 sm:mt-0">
                         <button
                             @click="openCreateModal"
-                            class="inline-flex items-center px-4 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors duration-200"
+                            class="inline-flex items-center px-4 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors duration-200"
                         >
                             <PlusIcon class="h-4 w-4 mr-1.5" />
                             Tambah Pembayaran
@@ -439,16 +439,16 @@ const deleteKas = (id) => {
 
                 <!-- Total Summary Card -->
                 <div
-                    class="mt-6 bg-gradient-to-r from-emerald-50 to-emerald-100 rounded-xl p-4 border border-emerald-200/70"
+                    class="mt-6 bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-4 border border-blue-200/70"
                 >
                     <div
                         class="flex flex-col sm:flex-row sm:items-center sm:justify-between"
                     >
                         <div>
-                            <p class="text-sm font-medium text-emerald-800">
+                            <p class="text-sm font-medium text-blue-800">
                                 Total Kas Terkumpul Bulan Ini
                             </p>
-                            <p class="text-2xl font-bold text-emerald-900 mt-1">
+                            <p class="text-2xl font-bold text-blue-900 mt-1">
                                 Rp {{ formatRupiah(totalKas) }}
                             </p>
                         </div>

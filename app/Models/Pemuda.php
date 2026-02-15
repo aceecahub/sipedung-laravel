@@ -9,9 +9,9 @@ class Pemuda extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id_pemudas'];
+    protected $guarded = ['id_pemuda'];
     protected $table = 'pemudas';
-    protected $primaryKey = 'id_pemudas';
+    protected $primaryKey = 'id_pemuda';
 
     public function warga()
     {

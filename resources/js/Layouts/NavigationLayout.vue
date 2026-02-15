@@ -14,7 +14,6 @@
         WalletIcon,
         FingerPrintIcon,
         Cog6ToothIcon,
-        ArrowLeftOnRectangleIcon,
         UserIcon,
         UserGroupIcon,
         BanknotesIcon,
@@ -42,21 +41,6 @@
             ]
         },
         {
-            name: 'Kauangan', // Catatan: typo, seharusnya "Keuangan"
-            icon: WalletIcon,
-            children: [{
-                    name: '17 agustus',
-                    href: '/kas-agustus',
-                    icon:  BanknotesIcon
-                },
-                {
-                    name: 'Denda Ronda',
-                    href: '/denda-ronda',
-                    icon: CreditCardIcon
-                }
-            ]
-        },
-        {
             name: 'Presensi',
             icon: FingerPrintIcon,
             children: [{
@@ -72,9 +56,24 @@
             ]
         },
         {
+            name: 'Keuangan',
+            icon: WalletIcon,
+            children: [{
+                    name: '17 agustus',
+                    href: '/kas-agustus',
+                    icon:  BanknotesIcon
+                },
+                {
+                    name: 'Denda Ronda',
+                    href: '/denda-ronda',
+                    icon: CreditCardIcon
+                }
+            ]
+        },
+        {
             name: 'Pengaturan',
             icon: Cog6ToothIcon,
-            href: '/pengaturan' // Diperbaiki dari '/kepala-keluarga'
+            href: '/pengaturan'
         },
     ];
 

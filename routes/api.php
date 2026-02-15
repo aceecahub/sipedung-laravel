@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WargaController;
 use App\Http\Controllers\KasAgustusController;
 use App\Http\Controllers\KepalaKeluargaController;
+use App\Http\Controllers\PemudaController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -21,4 +22,7 @@ Route::apiResource('wg', WargaController::class);
 
 // Kas Agustus
 Route::apiResource('kas', KasAgustusController::class);
+
+// Pemuda
+Route::apiResource('pmd', PemudaController::class);
 

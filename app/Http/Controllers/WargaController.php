@@ -154,8 +154,6 @@ class WargaController extends Controller
             if ($pemuda) {
                 if (!$eligible) {
                     $pemuda->update(['status' => 'Nonaktif']);
-                } else {
-                    $pemuda->delete();
                 }
             }
         }

@@ -63,18 +63,18 @@ class WargaController extends Controller
         $warga = Warga::create($dataValidate);
 
         // Hitung umur untuk cek apakah lansia (>= 60 tahun)
-        $birthDate = Carbon::parse($request->tanggal_lahir);
-        $age = $birthDate->age;
-        $isLansia = $age >= 60;
+        $tgl_lahir = Carbon::parse($request->tanggal_lahir);
+        $age = $tgl_lahir->age;
+        $lansia = $age >= 60;
         
         // Cek eligibilitas pemuda berdasarkan status dan status perkawinan
-        $isEligible = $request->status === 'Hidup' && $request->status_perkawinan === 'Belum Menikah' && !$isLansia;
+        $eligible = $request->status === 'Hidup' && $request->status_perkawinan === 'Belum Menikah' && !$lansia;
 
         if (!empty($request->jabatan)) {
             Pemuda::create([
                 'id_warga' => $warga->id_warga,
                 'jabatan' => $request->jabatan,
-                'status' => $isEligible ? 'Aktif' : 'Nonaktif'
+                'status' => $eligible ? 'Aktif' : 'Nonaktif'
             ]);
         }
 
@@ -126,33 +126,33 @@ class WargaController extends Controller
 
         $warga->update($dataValidate);
 
-        // Hitung umur untuk cek apakah lansia (>= 60 tahun)
-        $birthDate = Carbon::parse($request->tanggal_lahir);
-        $age = $birthDate->age;
-        $isLansia = $age >= 60;
+        // cek umur kolot apa bukan
+        $tgl_lahir = Carbon::parse($request->tanggal_lahir);
+        $umur = $tgl_lahir->age;
+        $lansia = $umur >= 60;
         
         // data pemuda
         $pemuda = Pemuda::where('id_warga', $id)->first();
         
-        // Cek eligibilitas pemuda berdasarkan status, status perkawinan, dan BUKAN lansia
-        $isEligible = $request->status === 'Hidup' && $request->status_perkawinan === 'Belum Menikah' && !$isLansia;
+        // cek eligible pemuda berdasarkan status, status perkawinan, dan BUKAN kolot
+        $eligible = $request->status === 'Hidup' && $request->status_perkawinan === 'Belum Menikah' && !$lansia;
         
         if (!empty($request->jabatan)) {
             if (!$pemuda) {
                 Pemuda::create([
                     'id_warga' => $id,
                     'jabatan' => $request->jabatan,
-                    'status' => $isEligible ? 'Aktif' : 'Nonaktif'
+                    'status' => $eligible ? 'Aktif' : 'Nonaktif'
                 ]);
             } else {
                 $pemuda->update([
                     'jabatan' => $request->jabatan,
-                    'status' => $isEligible ? 'Aktif' : 'Nonaktif'
+                    'status' => $eligible ? 'Aktif' : 'Nonaktif'
                 ]);
             }
         } else {
             if ($pemuda) {
-                if (!$isEligible) {
+                if (!$eligible) {
                     $pemuda->update(['status' => 'Nonaktif']);
                 } else {
                     $pemuda->delete();

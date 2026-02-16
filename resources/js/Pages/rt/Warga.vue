@@ -456,7 +456,14 @@ const deleteWarga = (id) => {
                                             {{ item.goldar }}
                                         </td>
                                         <td
-                                            class="whitespace-nowrap px-3 py-4 text-sm text-gray-700"
+                                            :class="[
+                                                item.status === 'Hidup'
+                                                    ? 'bg-green-100 text-green-800'
+                                                    : item.status === 'Meninggal'
+                                                    ? 'bg-red-100 text-red-800'
+                                                    : 'bg-yellow-100 text-yellow-800',
+                                                'inline-flex rounded-full px-2 mt-3.5 text-xs font-semibold leading-5',
+                                            ]"
                                         >
                                             {{ item.status }}
                                         </td>

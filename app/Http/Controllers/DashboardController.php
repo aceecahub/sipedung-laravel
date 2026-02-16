@@ -26,12 +26,10 @@ class DashboardController extends Controller
         $age60 = Carbon::now()->subYears(60);
 
         // query table - untuk count statistik
-        $pemudaCount = Warga::where('tanggal_lahir', '<=', $age17)
-            ->where('tanggal_lahir', '>', $age60)
-            ->count();
+        $pemudaCount = Pemuda::all()->count();
         $lansia = Warga::where('tanggal_lahir', '<', $age60)->count();
 
-        // Ambil data pemuda lengkap dengan kondisi dari PemudaController
+        // Ambil data pemuda
         $pemuda = Pemuda::with('warga')->get();
 
         // chart gender warga

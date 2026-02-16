@@ -25,7 +25,7 @@ import { Head } from '@inertiajs/vue3';
   </div>
 </template>
 
-<style scoped>
+<!-- <style scoped>
 /* Pastikan Playfair Display tersedia */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
-</style>
+</style> -->

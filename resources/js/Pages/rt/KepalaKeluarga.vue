@@ -218,26 +218,30 @@ const deleteKk = (id) => {
                 class="p-6 mt-4 bg-white rounded-xl shadow-md ring-1 ring-gray-200"
             >
                 <!-- Search & Add Button -->
-                <div class="flex justify-between mt-2">
-                    <div class="flex gap-3">
-                        <input
-                            type="text"
-                            class="rounded-xl h-9 border border-gray-300 px-3"
-                            placeholder="Cari Kepala Keluarga"
-                        />
+                <form action="">
+                    <div class="flex justify-between mt-2">
+                        <div class="flex gap-3">
+                            <input
+                                type="text"
+                                name="search"
+                                class="rounded-xl h-9 border border-gray-300 px-3"
+                                placeholder="Cari Kepala Keluarga"
+                            />
+                            <button
+                                class="bg-blue-500 rounded-md py-1 px-2 text-white hover:bg-blue-600 transition-colors duration-200"
+                            >
+                                <MagnifyingGlassIcon class="h-5 w-5" />
+                            </button>
+                        </div>
                         <button
+                            type="submit"
+                            @click="openCreateModal"
                             class="bg-blue-500 rounded-md py-1 px-2 text-white hover:bg-blue-600 transition-colors duration-200"
                         >
-                            <MagnifyingGlassIcon class="h-5 w-5" />
+                            + Kepala Keluarga
                         </button>
                     </div>
-                    <button
-                        @click="openCreateModal"
-                        class="bg-blue-500 rounded-md py-1 px-2 text-white hover:bg-blue-600 transition-colors duration-200"
-                    >
-                        + Kepala Keluarga
-                    </button>
-                </div>
+                </form>
 
                 <!-- Table -->
                 <div class="mt-4 flow-root">

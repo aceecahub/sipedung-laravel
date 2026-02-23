@@ -15,13 +15,21 @@ class KepalaKeluargaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $kk = KepalaKeluarga::all();
+        $search = $request->input('search');
+
+        $kk = KepalaKeluarga::when($search, function ($query, $search) {
+            $query->where('kk', 'like', "%{$search}%")
+                  ->orWhere('nik', 'like', "%{$search}%")
+                  ->orWhere('nama', 'like', "%{$search}%");
+        })->get();
+
         $user = User::select('id_user', 'email')->get();
         return Inertia::render('rt/KepalaKeluarga', [
             'kk' => $kk,
             'user' => $user,
+            'search' => $search
         ]);
     }
 

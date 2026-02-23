@@ -130,12 +130,13 @@ class WargaController extends Controller
         $tgl_lahir = Carbon::parse($request->tanggal_lahir);
         $umur = $tgl_lahir->age;
         $lansia = $umur >= 60;
+        $anak = $umur < 16;
         
         // data pemuda
         $pemuda = Pemuda::where('id_warga', $id)->first();
         
         // cek eligible pemuda berdasarkan status, status perkawinan, dan BUKAN kolot
-        $eligible = $request->status === 'Hidup' && $request->status_perkawinan === 'Belum Menikah' && !$lansia;
+        $eligible = $request->status === 'Hidup' && $request->status_perkawinan === 'Belum Menikah' && !$lansia && !$anak;
         
         if (!empty($request->jabatan)) {
             if (!$pemuda) {

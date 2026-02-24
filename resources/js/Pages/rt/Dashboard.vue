@@ -27,9 +27,13 @@ const props = defineProps({
         type: [Array, Number],
         default: () => [],
     },
-    lansia: {
+    lansiaCount: {
         type: Number,
         default: 0,
+    },
+    lansia: {
+        type: [Array, Number],
+        default: () => [],
     },
     gender: {
         type: Array,
@@ -76,7 +80,7 @@ const stats = computed(() => [
     },
     {
         name: "Lansia",
-        value: props.lansia || 0,
+        value: props.lansiaCount || 0,
         icon: UserIcon,
         change: "-2%",
         changeType: "decrease",
@@ -432,6 +436,8 @@ onUnmounted(() => {
                     </div>
                 </div>
 
+
+                
                 <!-- Table Pemuda -->
                 <div
                     class="p-6 mt-4 bg-white rounded-xl shadow-md ring-1 ring-gray-200 lg:col-span-2"
@@ -583,6 +589,168 @@ onUnmounted(() => {
                                                         >
                                                             Klik tombol "Tambah
                                                             Pemuda" untuk
+                                                            memulai
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table Lansia -->
+                <div
+                    class="p-6 mt-4 bg-white rounded-xl shadow-md ring-1 ring-gray-200 lg:col-span-2"
+                >
+                    <!-- Header Section -->
+                    <div class="mb-4">
+                        <h3 class="text-lg font-bold text-gray-900">
+                            Tabel Lansia
+                        </h3>
+                        <p class="text-sm text-gray-500 mt-1">Daftar Lansia</p>
+                    </div>
+
+                    <!-- Search & Add Button -->
+                    <div class="flex justify-between mt-2">
+                        <div class="flex gap-3">
+                            <input
+                                type="text"
+                                class="rounded-xl h-9 border border-gray-300 px-3"
+                                placeholder="Cari Lansia"
+                            />
+                            <button
+                                class="bg-blue-500 rounded-md py-1 px-2 text-white hover:bg-blue-600 transition-colors duration-200"
+                            >
+                                <MagnifyingGlassIcon class="h-5 w-5" />
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="mt-4 flow-root">
+                        <div
+                            class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8"
+                        >
+                            <div
+                                class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8"
+                            >
+                                <div
+                                    class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg"
+                                >
+                                    <table
+                                        class="min-w-full divide-y divide-gray-300"
+                                    >
+                                        <thead class="bg-gray-200">
+                                            <tr>
+                                                <th
+                                                    scope="col"
+                                                    class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                                >
+                                                    No
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    class="py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                >
+                                                    Nama Lansia
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    class="px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                >
+                                                    Tanggal lahir
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                >
+                                                    Status
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody
+                                            class="divide-y divide-gray-200 bg-white"
+                                        >
+                                            <template
+                                                v-if="
+                                                    Array.isArray(lansia) &&
+                                                    lansia.length > 0
+                                                "
+                                            >
+                                                <tr
+                                                    v-for="(
+                                                        item, index
+                                                    ) in lansia"
+                                                    :key="item.id_warga"
+                                                    class="hover:bg-slate-50 transition-colors duration-150"
+                                                >
+                                                    <td
+                                                        class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
+                                                    >
+                                                        {{ index + 1 }}
+                                                    </td>
+                                                    <td
+                                                        class="whitespace-nowrap py-4 text-sm text-gray-700"
+                                                    >
+                                                        {{ item.nama || "-" }}
+                                                    </td>
+                                                    <td
+                                                        class="whitespace-nowrap px-3 py-4 text-sm text-gray-700"
+                                                    >
+                                                        {{ item.tanggal_lahir }}
+                                                    </td>
+                                                    <td
+                                                        class="whitespace-nowrap px-3 py-4 text-sm"
+                                                    >
+                                                        <span
+                                                            :class="[
+                                                                item.status ===
+                                                                'Hidup'
+                                                                    ? 'bg-green-100 text-green-800'
+                                                                    : item.status ===
+                                                                      'Meninggal'
+                                                                    ? 'bg-red-100 text-red-800'
+                                                                    : 'bg-yellow-100 text-yellow-800',
+                                                                'inline-flex rounded-full px-2 text-xs font-semibold leading-5',
+                                                            ]"  
+                                                        >
+                                                            {{ item.status }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </template>
+
+                                            <!-- empty data -->
+                                            <tr v-else>
+                                                <td
+                                                    :colspan="9"
+                                                    class="py-12 text-center"
+                                                >
+                                                    <div
+                                                        class="inline-flex flex-col items-center"
+                                                    >
+                                                        <div
+                                                            class="bg-gray-100 border-2 border-dashed rounded-xl w-16 h-16 flex items-center justify-center mb-3"
+                                                        >
+                                                            <UserIcon
+                                                                class="h-7 w-7 text-gray-400"
+                                                            />
+                                                        </div>
+                                                        <p
+                                                            class="text-sm font-medium text-gray-600"
+                                                        >
+                                                            Belum ada data
+                                                            Lansia
+                                                        </p>
+                                                        <p
+                                                            class="text-xs text-gray-500 mt-1"
+                                                        >
+                                                            Klik tombol "Tambah
+                                                            Lansia" untuk
                                                             memulai
                                                         </p>
                                                     </div>

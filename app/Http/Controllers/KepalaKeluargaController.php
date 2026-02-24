@@ -20,25 +20,24 @@ class KepalaKeluargaController extends Controller
         $search = $request->input('search');
 
         $kk = KepalaKeluarga::when($search, function ($query, $search) {
-            $query->where('kk', 'like', "%{$search}%")
-                  ->orWhere('nik', 'like', "%{$search}%")
-                  ->orWhere('nama', 'like', "%{$search}%");
+            $query
+                ->where('kk', 'like', "%{$search}%")
+                ->orWhere('nik', 'like', "%{$search}%")
+                ->orWhere('nama', 'like', "%{$search}%");
         })->get();
 
         $user = User::select('id_user', 'email')->get();
         return Inertia::render('rt/KepalaKeluarga', [
             'kk' => $kk,
             'user' => $user,
-            'search' => $search
+            'search' => $search,
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create() {
-        
-    }
+    public function create() {}
 
     /**
      * Store a newly created resource in storage.

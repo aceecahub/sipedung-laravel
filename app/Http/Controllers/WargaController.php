@@ -20,7 +20,11 @@ class WargaController extends Controller
      */
     public function index()
     {
-        $warga = Warga::with('pemuda')->get();
+        $search = request('search');
+        $warga = Warga::with('pemuda')->when($search, function ($query, $search) {
+            $query->where('nama', 'like', "%{$search}%")
+                ->orWhere('nik', 'like', "%{$search}%");
+        })->get();
         $kk = KepalaKeluarga::select('id_kk', 'nama')->get();
         $user = User::select('id_user', 'email')->get();
         return Inertia::render('rt/Warga', [

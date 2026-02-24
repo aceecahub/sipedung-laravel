@@ -27,8 +27,10 @@ class DashboardController extends Controller
 
         // query table - untuk count statistik
         $pemudaCount = Pemuda::all()->count();
-        $lansia = Warga::where('tanggal_lahir', '<', $age60)->count();
+        $lansiaCount = Warga::where('tanggal_lahir', '<', $age60)->count();
 
+        // Ambil data lansia
+        $lansia = Warga::select('nama', 'tanggal_lahir', 'status')->where('tanggal_lahir', '<', $age60)->get();
         // Ambil data pemuda
         $pemuda = Pemuda::with('warga')->get();
 
@@ -46,8 +48,9 @@ class DashboardController extends Controller
         return Inertia::render('rt/Dashboard', [
             'kk' => $kk,
             'warga' => $warga,
-            'pemudaCount' => $pemudaCount, // untuk statistik card
-            'pemuda' => $pemuda, // untuk tabel pemuda
+            'pemudaCount' => $pemudaCount,
+            'pemuda' => $pemuda,
+            'lansiaCount' => $lansiaCount,
             'lansia' => $lansia,
             'gender' => $gender,
             'status' => $status

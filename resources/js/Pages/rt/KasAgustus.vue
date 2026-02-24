@@ -9,6 +9,7 @@ import {
     TrashIcon,
     BanknotesIcon,
     ArrowDownTrayIcon,
+    MagnifyingGlassIcon
 } from "@heroicons/vue/24/outline";
 import { ref, computed } from "vue";
 
@@ -227,12 +228,25 @@ const deleteKas = (id) => {
             <div
                 class="p-6 mt-4 bg-white rounded-xl shadow-md ring-1 ring-gray-200"
             >
+            <h2 class="text-2xl font-bold text-gray-800">
+                Daftar Kas Agustus
+            </h2>
                 <div
                     class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6"
                 >
-                    <h2 class="text-2xl font-bold text-gray-800">
-                        Daftar Kas Agustus
-                    </h2>
+                <!-- Search & Add Button -->
+                <form action="">
+                    <div class="flex justify-between mt-2">
+                        <div class="flex gap-3">
+                            <input type="text" name="search" class="rounded-xl h-9 border border-gray-300 px-3"
+                                placeholder="Cari Data Kas Agustus" />
+                            <button
+                                class="bg-blue-500 rounded-md py-1 px-2 text-white hover:bg-blue-600 transition-colors duration-200">
+                                <MagnifyingGlassIcon class="h-5 w-5" />
+                            </button>
+                        </div>
+                    </div>
+                </form>
                     <div class="mt-4 sm:mt-0">
                         <button
                             @click="openCreateModal"
@@ -327,7 +341,7 @@ const deleteKas = (id) => {
                                                     {{ item.warga?.nama || "–" }}
                                                 </td>
                                                 <td
-                                                    class="whitespace-nowrap px-3 py-4 text-sm font-medium text-emerald-700"
+                                                    class="whitespace-nowrap px-3 py-4 text-sm font-medium text-blue-700"
                                                 >
                                                     {{
                                                         formatRupiah(
@@ -350,7 +364,7 @@ const deleteKas = (id) => {
                                                             'bg-emerald-100 text-emerald-800':
                                                                 item.status_perelek ===
                                                                 'Ada',
-                                                            'bg-amber-100 text-amber-800':
+                                                            'bg-red-100 text-red-800':
                                                                 item.status_perelek ===
                                                                 'Tidak Ada',
                                                         }"

@@ -16,7 +16,8 @@ class KasAgustusController extends Controller
      */
     public function index()
     {
-        $kas = KasAgustus::with('warga', 'kk')->get();
+        $search = request('search');
+        $kas = KasAgustus::with('warga', 'kk')->where('id_kk', 'like', "%{$search}%")->get();
         $data_kk = KepalaKeluarga::select('id_kk', 'nama', 'kk')->get();
         $data_warga = Warga::select('id_warga', 'nama', 'id_kk')->get();
         

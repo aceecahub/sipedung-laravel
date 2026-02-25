@@ -453,10 +453,12 @@ onUnmounted(() => {
                     </div>
 
                     <!-- Search & Add Button -->
+                    <form action="">
                     <div class="flex justify-between mt-2">
                         <div class="flex gap-3">
                             <input
                                 type="text"
+                                name="searchPemuda"
                                 class="rounded-xl h-9 border border-gray-300 px-3"
                                 placeholder="Cari Pemuda"
                             />
@@ -467,6 +469,7 @@ onUnmounted(() => {
                             </button>
                         </div>
                     </div>
+                    </form>
 
                     <!-- Table -->
                     <div class="mt-4 flow-root">
@@ -615,10 +618,12 @@ onUnmounted(() => {
                     </div>
 
                     <!-- Search & Add Button -->
+                     <form action="">
                     <div class="flex justify-between mt-2">
                         <div class="flex gap-3">
                             <input
                                 type="text"
+                                name="searchLansia"
                                 class="rounded-xl h-9 border border-gray-300 px-3"
                                 placeholder="Cari Lansia"
                             />
@@ -629,6 +634,7 @@ onUnmounted(() => {
                             </button>
                         </div>
                     </div>
+                    </form>
 
                     <!-- Table -->
                     <div class="mt-4 flow-root">
@@ -651,6 +657,18 @@ onUnmounted(() => {
                                                     class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                                 >
                                                     No
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    class="py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                >
+                                                    Kartu Keluarga
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    class="py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                >
+                                                    NIK
                                                 </th>
                                                 <th
                                                     scope="col"
@@ -692,6 +710,16 @@ onUnmounted(() => {
                                                         class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
                                                     >
                                                         {{ index + 1 }}
+                                                    </td>
+                                                    <td
+                                                        class="whitespace-nowrap py-4 text-sm text-gray-700"
+                                                    >
+                                                        {{ item.id_kk || "-" }}
+                                                    </td>
+                                                    <td
+                                                        class="whitespace-nowrap py-4 text-sm text-gray-700"
+                                                    >
+                                                        {{ item.nik || "-" }}
                                                     </td>
                                                     <td
                                                         class="whitespace-nowrap py-4 text-sm text-gray-700"

@@ -30,9 +30,13 @@ class DashboardController extends Controller
         $lansiaCount = Warga::where('tanggal_lahir', '<', $age60)->count();
 
         // Ambil data lansia
+        $searchLansia = request('searchLansia');
         $lansia = Warga::select('nama', 'tanggal_lahir', 'status')->where('tanggal_lahir', '<', $age60)->get();
         // Ambil data pemuda
-        $pemuda = Pemuda::with('warga')->get();
+        $searchPemuda = request('searchPemuda');
+        $pemuda = Pemuda::with('warga')->where('id_warga', 'like', "%{$searchPemuda}%")
+        ->orWhere('id_pemuda', 'like', "%{$searchPemuda}%")
+        ->get();
 
         // chart gender warga
         $gender = Warga::select('jenis_kelamin', DB::raw('count(*) as count'))

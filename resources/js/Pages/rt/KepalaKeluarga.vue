@@ -40,7 +40,18 @@ const form = ref({
     agama: "",
     pekerjaan: "",
     id_user: "",
+    kelompok_ronda: "",
 });
+
+const kelompokRondaOptions = [
+    { value: '1', label: 'Senin (Grup 1)' },
+    { value: '2', label: 'Selasa (Grup 2)' },
+    { value: '3', label: 'Rabu (Grup 3)' },
+    { value: '4', label: 'Kamis (Grup 4)' },
+    { value: '5', label: 'Jumat (Grup 5)' },
+    { value: '6', label: 'Sabtu (Grup 6)' },
+    { value: '7', label: 'Minggu (Grup 7)' },
+];
 
 // select agama untuk form
 const agamaOptions = ["Islam", "Kristen", "Katolik", "Hindu", "Budha"];
@@ -63,6 +74,7 @@ const resetForm = () => {
         agama: "",
         pekerjaan: "",
         id_user: "",
+        kelompok_ronda: "",
     };
     editId.value = null;
     showModal.value = false;
@@ -234,7 +246,7 @@ const deleteKk = (id) => {
                             </button>
                         </div>
                         <button
-                            type="submit"
+                            type="button"
                             @click="openCreateModal"
                             class="bg-blue-500 rounded-md py-1 px-2 text-white hover:bg-blue-600 transition-colors duration-200"
                         >
@@ -309,6 +321,12 @@ const deleteKk = (id) => {
                                                 scope="col"
                                                 class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                             >
+                                                Jadwal Ronda
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                            >
                                                 Aksi
                                             </th>
                                         </tr>
@@ -365,6 +383,17 @@ const deleteKk = (id) => {
                                                 <td
                                                     class="whitespace-nowrap px-3 py-4 text-sm text-gray-700"
                                                 >
+                                                    <span 
+                                                        v-if="item.kelompok_ronda"
+                                                        class="bg-blue-100 text-blue-800 px-2 py-1 rounded-md text-xs font-bold"
+                                                    >
+                                                        {{ kelompokRondaOptions.find(o => o.value == item.kelompok_ronda)?.label.split(' ')[0] }}
+                                                    </span>
+                                                    <span v-else class="text-gray-400">-</span>
+                                                </td>
+                                                <td
+                                                    class="whitespace-nowrap px-3 py-4 text-sm text-gray-700"
+                                                >
                                                     <div class="flex space-x-2">
                                                         <button
                                                             type="button"
@@ -402,7 +431,7 @@ const deleteKk = (id) => {
                                         <!-- empty data -->
                                         <tr v-else>
                                             <td
-                                                :colspan="9"
+                                                :colspan="10"
                                                 class="py-12 text-center"
                                             >
                                                 <div
@@ -671,29 +700,54 @@ const deleteKk = (id) => {
                                 </div>
                             </div>
 
-                            <div>
-                                <label
-                                    for="agama"
-                                    class="block text-sm font-medium text-gray-700 mb-1"
-                                    >Agama</label
-                                >
-                                <select
-                                    id="agama"
-                                    v-model="form.agama"
-                                    required
-                                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 appearance-none"
-                                >
-                                    <option value="" disabled>
-                                        Pilih Agama
-                                    </option>
-                                    <option
-                                        v-for="agama in agamaOptions"
-                                        :key="agama"
-                                        :value="agama"
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label
+                                        for="agama"
+                                        class="block text-sm font-medium text-gray-700 mb-1"
+                                        >Agama</label
                                     >
-                                        {{ agama }}
-                                    </option>
-                                </select>
+                                    <select
+                                        id="agama"
+                                        v-model="form.agama"
+                                        required
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 appearance-none"
+                                    >
+                                        <option value="" disabled>
+                                            Pilih Agama
+                                        </option>
+                                        <option
+                                            v-for="agama in agamaOptions"
+                                            :key="agama"
+                                            :value="agama"
+                                        >
+                                            {{ agama }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label
+                                        for="kelompok_ronda"
+                                        class="block text-sm font-medium text-gray-700 mb-1"
+                                        >Jadwal Ronda</label
+                                    >
+                                    <select
+                                        id="kelompok_ronda"
+                                        v-model="form.kelompok_ronda"
+                                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all duration-200 appearance-none"
+                                    >
+                                        <option value="" selected>
+                                            Tanpa Jadwal
+                                        </option>
+                                        <option
+                                            v-for="option in kelompokRondaOptions"
+                                            :key="option.value"
+                                            :value="option.value"
+                                        >
+                                            {{ option.label }}
+                                        </option>
+                                    </select>
+                                </div>
                             </div>
 
                             <div>

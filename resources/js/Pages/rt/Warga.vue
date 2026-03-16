@@ -295,7 +295,7 @@
                                 <MagnifyingGlassIcon class="h-5 w-5" />
                             </button>
                         </div>
-                        <button type="submit" @click="openCreateModal"
+                        <button type="button" @click="openCreateModal"
                             class="bg-blue-500 rounded-md py-1 px-2 text-white hover:bg-blue-600 transition-colors duration-200">
                             + Warga
                         </button>

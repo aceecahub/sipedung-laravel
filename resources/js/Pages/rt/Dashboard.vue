@@ -8,6 +8,7 @@ import {
     UserGroupIcon,
     DocumentArrowDownIcon,
     MagnifyingGlassIcon,
+    FingerPrintIcon
 } from "@heroicons/vue/24/outline";
 
 const props = defineProps({
@@ -42,6 +43,10 @@ const props = defineProps({
     status: {
         type: Array,
         default: () => [],
+    },
+    todayRondaCount: {
+        type: Number,
+        default: 0,
     },
 });
 
@@ -79,11 +84,11 @@ const stats = computed(() => [
         changeType: "increase",
     },
     {
-        name: "Lansia",
-        value: props.lansiaCount || 0,
-        icon: UserIcon,
-        change: "-2%",
-        changeType: "decrease",
+        name: "Absen Ronda Malam",
+        value: props.todayRondaCount || 0,
+        icon: FingerPrintIcon,
+        change: "Baru",
+        changeType: "increase",
     },
 ]);
 

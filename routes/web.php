@@ -10,6 +10,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KasAgustusController;
 use App\Http\Controllers\KepalaKeluargaController;
+use App\Http\Controllers\RondaController;
+use App\Http\Controllers\DendaRondaController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -43,6 +45,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('warga', WargaController::class);
     // Kas Agustus
     Route::resource('kas-agustus', KasAgustusController::class);
+    // Ronda
+    Route::get('ronda/jadwal', [RondaController::class, 'getJadwal'])->name('ronda.jadwal');
+    Route::get('ronda/today', [RondaController::class, 'getTodayAttendance'])->name('ronda.today');
+    Route::resource('ronda', RondaController::class);
+
+    // Denda Ronda
+    Route::post('denda-ronda/generate', [DendaRondaController::class, 'generateAutoFines'])->name('denda-ronda.generate');
+    Route::resource('denda-ronda', DendaRondaController::class);
 });
 
 require __DIR__ . '/auth.php';

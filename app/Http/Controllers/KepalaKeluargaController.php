@@ -56,6 +56,7 @@ class KepalaKeluargaController extends Controller
             'nohp' => 'required|max:20',
             'agama' => 'required|in:Islam,Kristen,Katolik,Hindu,Budha',
             'pekerjaan' => 'required|max:255',
+            'kelompok_ronda' => 'nullable|in:1,2,3,4,5,6,7',
         ]);
 
         KepalaKeluarga::create($dataValidate);
@@ -96,6 +97,7 @@ class KepalaKeluargaController extends Controller
             'nohp' => 'required|max:20',
             'agama' => 'required|in:Islam,Kristen,Katolik,Hindu,Budha',
             'pekerjaan' => 'required|max:255',
+            'kelompok_ronda' => 'nullable|in:1,2,3,4,5,6,7',
         ]);
 
         $kepalaKeluarga->update($dataValidate);

@@ -9,6 +9,7 @@ use App\Models\Warga;
 use Illuminate\Http\Request;
 use App\Models\KepalaKeluarga;
 use App\Models\Pemuda;
+use App\Models\Ronda;
 
 class DashboardController extends Controller
 {
@@ -48,6 +49,9 @@ class DashboardController extends Controller
             ->groupBy('status')
             ->get();
 
+        // today's ronda
+        $todayRondaCount = Ronda::whereDate('tanggal', Carbon::today())->count();
+
         // return inertia
         return Inertia::render('rt/Dashboard', [
             'kk' => $kk,
@@ -57,7 +61,8 @@ class DashboardController extends Controller
             'lansiaCount' => $lansiaCount,
             'lansia' => $lansia,
             'gender' => $gender,
-            'status' => $status
+            'status' => $status,
+            'todayRondaCount' => $todayRondaCount,
         ]);
     }
 

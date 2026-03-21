@@ -217,16 +217,25 @@ const deleteKas = (id) => {
             <!-- Header -->
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
-                    <h1 class="text-2xl font-bold text-gray-900">
+                    <h1 
+                        class="text-2xl font-bold text-gray-900"
+                        data-aos="fade-up"
+                    >
                         Kas 17 Agustus dan Perelek
                     </h1>
-                    <p class="mt-2 text-sm text-gray-700">
+                    <p 
+                        class="mt-2 text-sm text-gray-700"
+                        data-aos="fade-up"
+                        data-aos-delay="100"
+                    >
                         Ringkasan data dan statistik Kas Agustus Kampung Anda
                     </p>
                 </div>
             </div>
             <div
                 class="p-6 mt-4 bg-white rounded-xl shadow-md ring-1 ring-gray-200"
+                data-aos="fade-up"
+                data-aos-delay="200"
             >
             <h2 class="text-2xl font-bold text-gray-800">
                 Daftar Kas Agustus
@@ -247,7 +256,10 @@ const deleteKas = (id) => {
                         </div>
                     </div>
                 </form>
-                    <div class="mt-4 sm:mt-0">
+                    <div 
+                        v-if="$page.props.auth.user.role !== 'kk'"
+                        class="mt-4 sm:mt-0"
+                    >
                         <button
                             @click="openCreateModal"
                             class="inline-flex items-center px-4 py-2.5 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors duration-200"
@@ -309,6 +321,7 @@ const deleteKas = (id) => {
                                                 Status Perelek
                                             </th>
                                             <th
+                                                v-if="$page.props.auth.user.role !== 'kk'"
                                                 scope="col"
                                                 class="py-3.5 px-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
                                             >
@@ -376,6 +389,7 @@ const deleteKas = (id) => {
                                                     </span>
                                                 </td>
                                                 <td
+                                                    v-if="$page.props.auth.user.role !== 'kk'"
                                                     class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
                                                 >
                                                     <div
@@ -408,6 +422,9 @@ const deleteKas = (id) => {
                                                             />
                                                         </button>
                                                     </div>
+                                                </td>
+                                                <td v-else class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                    -
                                                 </td>
                                             </tr>
                                         </template>
@@ -454,6 +471,8 @@ const deleteKas = (id) => {
                 <!-- Total Summary Card -->
                 <div
                     class="mt-6 bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-4 border border-blue-200/70"
+                    data-aos="zoom-in"
+                    data-aos-delay="300"
                 >
                     <div
                         class="flex flex-col sm:flex-row sm:items-center sm:justify-between"

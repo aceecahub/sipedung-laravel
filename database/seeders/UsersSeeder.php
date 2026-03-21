@@ -29,16 +29,16 @@ class UsersSeeder extends Seeder
                 'role' => 'rt',
             ],
             [
-                'name' => 'KK',
-                'email' => 'kk@gmail.com',
+                'name' => 'Yandi',
+                'email' => 'yandi@gmail.com',
                 'password' => bcrypt('password'),
                 'role' => 'kk',
             ],
             [
-                'name' => 'warga',
-                'email' => 'warga@gmail.com',
+                'name' => 'Wawan',
+                'email' => 'wawan@gmail.com',
                 'password' => bcrypt('password'),
-                'role' => 'warga',
+                'role' => 'kk',
             ],
         ])->each(function ($data) {
             User::create($data);

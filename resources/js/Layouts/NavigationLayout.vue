@@ -2,7 +2,8 @@
     import {
         ref,
         onMounted,
-        onUnmounted
+        onUnmounted,
+        computed
     } from 'vue';
     import {
         Link,
@@ -20,27 +21,37 @@
         CreditCardIcon,
     } from '@heroicons/vue/24/outline';
 
-    const navigation = [{
-            name: 'Dashboard',
-            icon: HomeIcon,
-            href: '/dashboard'
-        },
-        {
-            name: 'Data Master',
-            icon: CircleStackIcon,
-            children: [{
-                    name: 'Kepala Keluarga',
-                    href: '/kepala-keluarga',
-                    icon: UserIcon
-                },
-                {
-                    name: 'Data Warga',
-                    href: '/warga',
-                    icon: UserGroupIcon
-                }
-            ]
-        },
-        {
+    const page = usePage();
+
+    const navigation = computed(() => {
+        const role = page.props.auth.user.role;
+        const items = [{
+                name: 'Dashboard',
+                icon: HomeIcon,
+                href: '/dashboard'
+            }
+        ];
+
+        // Only Admin and RT can see Data Master
+        if (role === 'admin' || role === 'rt') {
+            items.push({
+                name: 'Data Master',
+                icon: CircleStackIcon,
+                children: [{
+                        name: 'Kepala Keluarga',
+                        href: '/kepala-keluarga',
+                        icon: UserIcon
+                    },
+                    {
+                        name: 'Data Warga',
+                        href: '/warga',
+                        icon: UserGroupIcon
+                    }
+                ]
+            });
+        }
+
+        items.push({
             name: 'Presensi',
             icon: FingerPrintIcon,
             children: [{
@@ -48,20 +59,16 @@
                     href: '/ronda',
                     icon: UserIcon
                 },
-                {
-                    name: 'Pengajian',
-                    href: '/pengajian',
-                    icon: UserIcon
-                }
             ]
-        },
-        {
+        });
+
+        items.push({
             name: 'Keuangan',
             icon: WalletIcon,
             children: [{
                     name: '17 agustus',
                     href: '/kas-agustus',
-                    icon:  BanknotesIcon
+                    icon: BanknotesIcon
                 },
                 {
                     name: 'Denda Ronda',
@@ -69,13 +76,18 @@
                     icon: CreditCardIcon
                 }
             ]
-        },
-        {
-            name: 'Pengaturan',
-            icon: Cog6ToothIcon,
-            href: '/pengaturan'
-        },
-    ];
+        });
+
+        if (role === 'admin' || role === 'rt') {
+            items.push({
+                name: 'Pengaturan',
+                icon: Cog6ToothIcon,
+                href: '/pengaturan'
+            });
+        }
+
+        return items;
+    });
 
     // Dropdown untuk Data Master
     const openSubMenu = ref('');
@@ -116,8 +128,6 @@
     onUnmounted(() => {
         document.removeEventListener('click', handleClickOutside);
     });
-
-    const page = usePage();
 </script>
 
 <template>

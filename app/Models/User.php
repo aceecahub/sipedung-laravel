@@ -27,6 +27,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -50,6 +51,22 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Roles Check
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isRT()
+    {
+        return $this->role === 'rt';
+    }
+
+    public function isKK()
+    {
+        return $this->role === 'kk';
     }
 
     // Kepala Keluarga

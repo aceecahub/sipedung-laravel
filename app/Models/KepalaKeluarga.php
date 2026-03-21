@@ -9,9 +9,11 @@ use App\Models\DendaRonda;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+use App\Traits\LogsActivity;
+
 class KepalaKeluarga extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
     protected $guarded = ['id_kk'];
     protected $table = 'kepala_keluargas';
     protected $primaryKey = 'id_kk';

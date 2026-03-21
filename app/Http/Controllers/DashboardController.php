@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use DB;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Inertia\Inertia;
 use App\Models\Warga;
@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\KepalaKeluarga;
 use App\Models\Pemuda;
 use App\Models\Ronda;
+use App\Models\ActivityLog;
 
 class DashboardController extends Controller
 {
@@ -52,6 +53,20 @@ class DashboardController extends Controller
         // today's ronda
         $todayRondaCount = Ronda::whereDate('tanggal', Carbon::today())->count();
 
+        // activity logs (real)
+        $activities = ActivityLog::with('user')
+            ->latest()
+            ->limit(10)
+            ->get()
+            ->map(function ($log) {
+                return [
+                    'id' => $log->id_activity,
+                    'user' => $log->user ? $log->user->name : 'Unknown User',
+                    'action' => $log->description,
+                    'time' => $log->created_at ? $log->created_at->diffForHumans() : '-',
+                ];
+            });
+
         // return inertia
         return Inertia::render('rt/Dashboard', [
             'kk' => $kk,
@@ -63,6 +78,7 @@ class DashboardController extends Controller
             'gender' => $gender,
             'status' => $status,
             'todayRondaCount' => $todayRondaCount,
+            'activities' => $activities,
         ]);
     }
 

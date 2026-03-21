@@ -61,13 +61,13 @@ const getStatusColor = (status) => {
 };
 
 const dayNames = {
-    '1': 'Senin',
-    '2': 'Selasa',
-    '3': 'Rabu',
-    '4': 'Kamis',
-    '5': 'Jumat',
-    '6': 'Sabtu',
-    '7': 'Minggu',
+    '1': 'Malam Senin',
+    '2': 'Malam Selasa',
+    '3': 'Malam Rabu',
+    '4': 'Malam Kamis',
+    '5': 'Malam Jumat',
+    '6': 'Malam Sabtu',
+    '7': 'Malam Minggu',
 };
 
 // Get current day of week (1-7, 1 is Monday)

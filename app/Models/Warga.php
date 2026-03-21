@@ -10,9 +10,11 @@ use App\Models\User;
 use App\Models\Pemuda;
 use App\Models\KepalaKeluarga;
 
+use App\Traits\LogsActivity;
+
 class Warga extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
     protected $guarded = ['id_warga'];
     protected $table = 'wargas';
     protected $primaryKey = 'id_warga';

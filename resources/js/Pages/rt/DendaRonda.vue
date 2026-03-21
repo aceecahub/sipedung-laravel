@@ -52,7 +52,10 @@ const checkFines = () => {
                         Kelola data denda untuk warga yang tidak mengikuti kegiatan ronda atau izin.
                     </p>
                 </div>
-                <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none flex gap-3">
+                <div 
+                    v-if="$page.props.auth.user.role !== 'kk'"
+                    class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none flex gap-3"
+                >
                     <button
                         @click="checkFines"
                         class="inline-flex items-center justify-center rounded-xl bg-blue-50 px-4 py-2.5 text-sm font-bold text-blue-700 border border-blue-100 hover:bg-blue-100 transition-all duration-300"
@@ -107,7 +110,12 @@ const checkFines = () => {
                                 <th class="px-8 py-5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Jumlah</th>
                                 <th class="px-8 py-5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Tanggal</th>
                                 <th class="px-8 py-5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Status</th>
-                                <th class="px-8 py-5 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Aksi</th>
+                                <th 
+                                    v-if="$page.props.auth.user.role !== 'kk'"
+                                    class="px-8 py-5 text-right text-xs font-bold text-gray-500 uppercase tracking-wider"
+                                >
+                                    Aksi
+                                </th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-50 bg-white">
@@ -142,7 +150,10 @@ const checkFines = () => {
                                         {{ denda.status_pembayaran }}
                                     </span>
                                 </td>
-                                <td class="px-8 py-6 text-right">
+                                <td 
+                                    v-if="$page.props.auth.user.role !== 'kk'"
+                                    class="px-8 py-6 text-right"
+                                >
                                     <div class="flex justify-end gap-2">
                                         <button 
                                             v-if="denda.status_pembayaran === 'Belum Bayar'"
@@ -161,6 +172,9 @@ const checkFines = () => {
                                             <XCircleIcon class="h-5 w-5" />
                                         </button>
                                     </div>
+                                </td>
+                                <td v-else class="px-8 py-6 text-right text-sm text-gray-400 font-medium">
+                                    -
                                 </td>
                             </tr>
                             <tr v-if="dendas.length === 0">

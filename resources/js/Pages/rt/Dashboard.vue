@@ -8,7 +8,8 @@ import {
     UserGroupIcon,
     DocumentArrowDownIcon,
     MagnifyingGlassIcon,
-    FingerPrintIcon
+    FingerPrintIcon,
+    DocumentMagnifyingGlassIcon
 } from "@heroicons/vue/24/outline";
 
 const props = defineProps({
@@ -47,6 +48,10 @@ const props = defineProps({
     todayRondaCount: {
         type: Number,
         default: 0,
+    },
+    activities: {
+        type: Array,
+        default: () => [],
     },
 });
 
@@ -92,32 +97,6 @@ const stats = computed(() => [
     },
 ]);
 
-const activities = [
-    {
-        id: 1,
-        user: "Budi Santoso",
-        action: "Menambahkan data warga baru",
-        time: "10 menit yang lalu",
-    },
-    {
-        id: 2,
-        user: "Siti Rahayu",
-        action: "Memperbarui data KK",
-        time: "1 jam yang lalu",
-    },
-    {
-        id: 3,
-        user: "Ahmad Fauzi",
-        action: "Menghapus data warga",
-        time: "2 jam yang lalu",
-    },
-    {
-        id: 4,
-        user: "Dewi Lestari",
-        action: "Menambahkan data pemuda/pemudi",
-        time: "3 jam yang lalu",
-    },
-];
 
 // Inisialisasi chart
 let genderChart = null;
@@ -295,7 +274,7 @@ onUnmounted(() => {
                         class="text-2xl font-bold text-gray-900"
                         data-aos="fade-up"
                     >
-                        Dashboard RT
+                        Dashboard
                     </h1>
                     <p
                         class="mt-2 text-sm text-gray-700"
@@ -305,7 +284,7 @@ onUnmounted(() => {
                         Ringkasan data dan statistik warga Kampung Anda
                     </p>
                 </div>
-                <div
+                <div v-if="$page.props.auth.user.role === 'admin'"
                     class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none"
                     data-aos="fade-up"
                 >
@@ -319,8 +298,10 @@ onUnmounted(() => {
                 </div>
             </div>
 
-            <!-- Stats -->
-            <div class="mt-8" data-aos="fade-up" data-aos-delay="100">
+            <!-- Stats (Restricted for KK) -->
+            <div
+                class="mt-8" data-aos="fade-up" data-aos-delay="100"
+            >
                 <div
                     class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
                 >
@@ -399,7 +380,7 @@ onUnmounted(() => {
                 data-aos="fade-up"
                 data-aos-delay="120"
             >
-                <!-- Gender Chart -->
+                <!-- Gender Chart (Hidden for KK) -->
                 <div
                     class="bg-white overflow-hidden shadow-lg rounded-xl hover:shadow-xl transition-shadow duration-300"
                 >
@@ -420,7 +401,7 @@ onUnmounted(() => {
                     </div>
                 </div>
 
-                <!-- Status Chart -->
+                <!-- Status Chart (Hidden for KK) -->
                 <div
                     class="bg-white overflow-hidden shadow-lg rounded-xl hover:shadow-xl transition-shadow duration-300"
                 >
@@ -443,7 +424,7 @@ onUnmounted(() => {
 
 
                 
-                <!-- Table Pemuda -->
+                <!-- Table Pemuda (Hidden for KK) -->
                 <div
                     class="p-6 mt-4 bg-white rounded-xl shadow-md ring-1 ring-gray-200 lg:col-span-2"
                 >
@@ -610,7 +591,7 @@ onUnmounted(() => {
                     </div>
                 </div>
 
-                <!-- Table Lansia -->
+                <!-- Table Lansia (Hidden for KK) -->
                 <div
                     class="p-6 mt-4 bg-white rounded-xl shadow-md ring-1 ring-gray-200 lg:col-span-2"
                 >
@@ -796,8 +777,9 @@ onUnmounted(() => {
                         </div>
                     </div>
                 </div>
-                <!-- Recent Activity -->
+                <!-- Recent Activity (Only for Admin) -->
                 <div
+                    v-if="$page.props.auth.user.role === 'admin'"
                     class="bg-white shadow-lg overflow-hidden rounded-xl hover:shadow-xl transition-shadow duration-300 lg:col-span-2"
                 >
                     <div class="px-6 py-8 border-b border-gray-100">
@@ -809,7 +791,7 @@ onUnmounted(() => {
                         </p>
                     </div>
                     <div>
-                        <ul role="list" class="divide-y divide-gray-100">
+                        <ul v-if="activities.length > 0" role="list" class="divide-y divide-gray-100">
                             <li
                                 v-for="activity in activities"
                                 :key="activity.id"
@@ -848,6 +830,10 @@ onUnmounted(() => {
                                 </div>
                             </li>
                         </ul>
+                        <div v-else class="px-6 py-12 text-center">
+                            <DocumentMagnifyingGlassIcon class="mx-auto h-12 w-12 text-gray-300" />
+                            <p class="mt-2 text-sm font-medium text-gray-500">Belum ada aktivitas tercatat.</p>
+                        </div>
                     </div>
                 </div>
             </div>
